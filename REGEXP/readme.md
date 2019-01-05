@@ -302,6 +302,8 @@ const patternB = /\d{0,};
 ```
 
 ------------
+[Шпаргралка](https://github.com/cyberspacedk/JS_POCKET/blob/master/REGEXP/regexp.png)
+------------
 ### Готовые_решения_для_валидации
 [8 Regular Expressions You Should Know](https://code.tutsplus.com/tutorials/8-regular-expressions-you-should-know--net-6149)
 
