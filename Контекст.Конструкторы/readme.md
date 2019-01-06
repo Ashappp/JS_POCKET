@@ -456,7 +456,8 @@ let переменная = функция.bind(контекстб, аргуме�
 
 #### Альтернативное_объяснение
 
-о контексте
+**о контексте**
+
 [tproger](https://tproger.ru/translations/javascript-this-keyword/) 
 
 [MDN](https://developer.mozilla.org/ru/docs/Web/JavaScript/Reference/Operators/this)
@@ -467,5 +468,6 @@ let переменная = функция.bind(контекстб, аргуме�
 
 [getinstance](https://getinstance.info/articles/javascript/execution-context/)
 
-о методах
+**о методах**
+
 [getinstance](https://getinstance.info/articles/javascript/call-apply-and-bind-functions/)
