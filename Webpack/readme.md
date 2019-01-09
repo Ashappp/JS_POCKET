@@ -439,15 +439,15 @@ module.exports = {
       },
       { 
         test: /\.css$/,  
-        exclude: /node_modules/, /   
+        exclude: /node_modules/,   
 // добавили лоадер , ПЕРЕД css-loader
         use: ["style-loader", MiniCssExtractPlugin.loader, "css-loader", "postcss-loader"]  
       }, 
        { 
         test: /\.scss$/,  
-        exclude: /node_modules/, / 
+        exclude: /node_modules/, 
 // добавили лоадер , ПОСЛЕ cass-loader НО перед css-loader
-        use: ["style-loader", MiniCssExtractPlugin.loader, "css-loader", "postcss-loader", sass-loader"], 
+        use: ["style-loader", MiniCssExtractPlugin.loader, "css-loader", "postcss-loader", "sass-loader"], 
       }
     ]
   },
@@ -502,14 +502,14 @@ module.exports = {
       },
       { 
         test: /\.css$/,  
-        exclude: /node_modules/, /  
+        exclude: /node_modules/,   
         use: ["style-loader", MiniCssExtractPlugin.loader, "css-loader", "postcss-loader"] 
 
       }, 
        { 
         test: /\.scss$/,  
-        exclude: /node_modules/, /  
-        use: ["style-loader", MiniCssExtractPlugin.loader, "css-loader", "postcss-loader", sass-loader"] 
+        exclude: /node_modules/,   
+        use: ["style-loader", MiniCssExtractPlugin.loader, "css-loader", "postcss-loader", "sass-loader"] 
 
       }
     ]
@@ -570,13 +570,13 @@ module.exports = {
       },
       { 
         test: /\.css$/,  
-        exclude: /node_modules/, /  
+        exclude: /node_modules/,   
         use: ["style-loader", MiniCssExtractPlugin.loader, "css-loader", "postcss-loader"]  
       }, 
        { 
         test: /\.scss$/,  
-        exclude: /node_modules/, /  
-        use: ["style-loader", MiniCssExtractPlugin.loader, "css-loader", "postcss-loader", sass-loader"]  
+        exclude: /node_modules/,  
+        use: ["style-loader", MiniCssExtractPlugin.loader, "css-loader", "postcss-loader", "sass-loader"]  
       },
 // добавляем сюда
       {
@@ -632,13 +632,13 @@ module.exports = {
       },
       { 
         test: /\.css$/,  
-        exclude: /node_modules/, /  
+        exclude: /node_modules/,   
         use: ["style-loader", MiniCssExtractPlugin.loader, "css-loader", "postcss-loader"]  
       }, 
        { 
         test: /\.scss$/,  
-        exclude: /node_modules/, /  
-        use: ["style-loader", MiniCssExtractPlugin.loader, "css-loader", "postcss-loader", sass-loader"]  
+        exclude: /node_modules/,  
+        use: ["style-loader", MiniCssExtractPlugin.loader, "css-loader", "postcss-loader", "sass-loader"]  
       }, 
       { 
         test: /\.(png|svg|jpg|gif)$/, 
@@ -703,13 +703,13 @@ module.exports = {
       },
       { 
         test: /\.css$/,  
-        exclude: /node_modules/, /  
+        exclude: /node_modules/,   
         use: ["style-loader", MiniCssExtractPlugin.loader, "css-loader", "postcss-loader"]  
       }, 
        { 
         test: /\.scss$/,  
-        exclude: /node_modules/, /  
-        use: ["style-loader", MiniCssExtractPlugin.loader, "css-loader", "postcss-loader", sass-loader"]  
+        exclude: /node_modules/,  
+        use: ["style-loader", MiniCssExtractPlugin.loader, "css-loader", "postcss-loader", "sass-loader"]  
       }, 
       { 
         test: /\.(png|svg|jpg|gif)$/, 
