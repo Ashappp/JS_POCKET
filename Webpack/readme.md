@@ -654,8 +654,8 @@ module.exports = {
     clientLogLevel: 'warning',
     compress: true,
     port: 9001,
-  }, 
-}; 
+  },  
+};  
 ```
 
 
