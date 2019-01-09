@@ -1,8 +1,8 @@
 WEBPACK
- 1. [Запуск](#Запуск)
- 2. [Установка](#Установка)
- 3. [Структура](#Структура)
- 4. [Пакеты](#Пакеты)
+- [Запуск](#Запуск)
+- [Установка](#Установка)
+- [Структура](#Структура)
+- [Пакеты](#Пакеты)
   - [Babel](#babel)
   - [HTML](#HTML)
   - [CSS](#CSS)
@@ -19,14 +19,20 @@ WEBPACK
 Настройка
 
 [Webpack 4: практические рекомендации по настройке](https://tproger.ru/translations/configure-webpack4/)
+
 [Guide to Webpack 4 and Module Bundling](https://www.sitepoint.com/beginners-guide-webpack-module-bundling/)
+
 [Webpack : Getting Started](https://webpack.js.org/guides/getting-started/)
 
 ------------
+
 Линки
+
 [Webpack оф.сайт](https://webpack.js.org/)
+
 [Документация webpack](https://webpack.js.org/concepts/)
 
+------------
 
 Webpack - это менеджер модульных зависимостей, сборщик модулей.
 Webpack анализирует ваше дерево зависимостей, создает для них модули и объединяет всю сеть в управляемые выходные файлы.
