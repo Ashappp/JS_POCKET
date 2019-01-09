@@ -1,8 +1,8 @@
-WEBPACK
- 1. [Запуск](#Запуск)
- 2. [Установка](#Установка)
- 3. [Структура](#Структура)
- 4. [Пакеты](#Пакеты)
+### WEBPACK
+- [Запуск](#Запуск)
+- [Установка](#Установка)
+- [Структура](#Структура)
+- [Пакеты](#Пакеты)
   - [Babel](#babel)
   - [HTML](#HTML)
   - [CSS](#CSS)
@@ -16,17 +16,23 @@ WEBPACK
 ------------
 
 
-Настройка
+#### Настройка
 
 [Webpack 4: практические рекомендации по настройке](https://tproger.ru/translations/configure-webpack4/)
+
 [Guide to Webpack 4 and Module Bundling](https://www.sitepoint.com/beginners-guide-webpack-module-bundling/)
+
 [Webpack : Getting Started](https://webpack.js.org/guides/getting-started/)
 
 ------------
-Линки
+
+#### Линки
+
 [Webpack оф.сайт](https://webpack.js.org/)
+
 [Документация webpack](https://webpack.js.org/concepts/)
 
+------------
 
 Webpack - это менеджер модульных зависимостей, сборщик модулей.
 Webpack анализирует ваше дерево зависимостей, создает для них модули и объединяет всю сеть в управляемые выходные файлы.
@@ -388,7 +394,9 @@ module.exports = {
 PostCSS предоставляет разные возможности нам **autoprefixer**, **cssnano/cleancss** (оптизицация размера css файла) и пр.
 
 [Post CSS Wikipedia](https://ru.wikipedia.org/wiki/PostCSS)
+
 [Github плагина](https://github.com/postcss/postcss)
+
 [Каталог PostCSS плагинов](https://www.postcss.parts/)
 
 Установим например  **autoprefixer**
@@ -433,15 +441,15 @@ module.exports = {
       },
       { 
         test: /\.css$/,  
-        exclude: /node_modules/, /   
+        exclude: /node_modules/,   
 // добавили лоадер , ПЕРЕД css-loader
         use: ["style-loader", MiniCssExtractPlugin.loader, "css-loader", "postcss-loader"]  
       }, 
        { 
         test: /\.scss$/,  
-        exclude: /node_modules/, / 
+        exclude: /node_modules/, 
 // добавили лоадер , ПОСЛЕ cass-loader НО перед css-loader
-        use: ["style-loader", MiniCssExtractPlugin.loader, "css-loader", "postcss-loader", sass-loader"]  
+        use: ["style-loader", MiniCssExtractPlugin.loader, "css-loader", "postcss-loader", "sass-loader"], 
       }
     ]
   },
@@ -496,14 +504,14 @@ module.exports = {
       },
       { 
         test: /\.css$/,  
-        exclude: /node_modules/, /  
+        exclude: /node_modules/,   
         use: ["style-loader", MiniCssExtractPlugin.loader, "css-loader", "postcss-loader"] 
 
       }, 
        { 
         test: /\.scss$/,  
-        exclude: /node_modules/, /  
-        use: ["style-loader", MiniCssExtractPlugin.loader, "css-loader", "postcss-loader", sass-loader"] 
+        exclude: /node_modules/,   
+        use: ["style-loader", MiniCssExtractPlugin.loader, "css-loader", "postcss-loader", "sass-loader"] 
 
       }
     ]
@@ -564,13 +572,13 @@ module.exports = {
       },
       { 
         test: /\.css$/,  
-        exclude: /node_modules/, /  
+        exclude: /node_modules/,   
         use: ["style-loader", MiniCssExtractPlugin.loader, "css-loader", "postcss-loader"]  
       }, 
        { 
         test: /\.scss$/,  
-        exclude: /node_modules/, /  
-        use: ["style-loader", MiniCssExtractPlugin.loader, "css-loader", "postcss-loader", sass-loader"]  
+        exclude: /node_modules/,  
+        use: ["style-loader", MiniCssExtractPlugin.loader, "css-loader", "postcss-loader", "sass-loader"]  
       },
 // добавляем сюда
       {
@@ -626,13 +634,13 @@ module.exports = {
       },
       { 
         test: /\.css$/,  
-        exclude: /node_modules/, /  
+        exclude: /node_modules/,   
         use: ["style-loader", MiniCssExtractPlugin.loader, "css-loader", "postcss-loader"]  
       }, 
        { 
         test: /\.scss$/,  
-        exclude: /node_modules/, /  
-        use: ["style-loader", MiniCssExtractPlugin.loader, "css-loader", "postcss-loader", sass-loader"]  
+        exclude: /node_modules/,  
+        use: ["style-loader", MiniCssExtractPlugin.loader, "css-loader", "postcss-loader", "sass-loader"]  
       }, 
       { 
         test: /\.(png|svg|jpg|gif)$/, 
@@ -697,13 +705,13 @@ module.exports = {
       },
       { 
         test: /\.css$/,  
-        exclude: /node_modules/, /  
+        exclude: /node_modules/,   
         use: ["style-loader", MiniCssExtractPlugin.loader, "css-loader", "postcss-loader"]  
       }, 
        { 
         test: /\.scss$/,  
-        exclude: /node_modules/, /  
-        use: ["style-loader", MiniCssExtractPlugin.loader, "css-loader", "postcss-loader", sass-loader"]  
+        exclude: /node_modules/,  
+        use: ["style-loader", MiniCssExtractPlugin.loader, "css-loader", "postcss-loader", "sass-loader"]  
       }, 
       { 
         test: /\.(png|svg|jpg|gif)$/, 
