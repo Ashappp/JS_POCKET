@@ -447,7 +447,7 @@ module.exports = {
         test: /\.scss$/,  
         exclude: /node_modules/, / 
 // добавили лоадер , ПОСЛЕ cass-loader НО перед css-loader
-        use: ["style-loader", MiniCssExtractPlugin.loader, "css-loader", "postcss-loader", sass-loader"]  
+        use: ["style-loader", MiniCssExtractPlugin.loader, "css-loader", "postcss-loader", sass-loader"], 
       }
     ]
   },
