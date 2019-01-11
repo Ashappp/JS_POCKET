@@ -1,4 +1,5 @@
-### Контекст в JavaScript 
+## Контекст в JavaScript 
+![pic](http://i.piccy.info/i9/419e4185bcac7cfabcb7dfc483450f75/1547058550/45141/1293035/What_is_this_in_Javascript.png)
 
 - [Правила определения this](#Правила_определения_this)
 - [this в глобальной области видимости](#this_в_глобальной_области_видимости)

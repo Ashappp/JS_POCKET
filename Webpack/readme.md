@@ -1,4 +1,6 @@
 ### WEBPACK
+![pic](https://github.com/cyberspacedk/JS_POCKET/blob/master/Webpack/webpack.png)
+
 - [Запуск](#Запуск)
 - [Установка](#Установка)
 - [Структура](#Структура)
