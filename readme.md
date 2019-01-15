@@ -2,6 +2,10 @@
 ----------------
 ## Конспект по JAVASCRIPT 
 
+### [Массивы](https://github.com/cyberspacedk/JS/tree/master/massive)
+
+### [Циклы](https://github.com/cyberspacedk/JS/tree/master/Cycle)
+
 ### [REST Api](https://github.com/cyberspacedk/JS-backend/tree/master)
 
 ### [ES6 модули](https://github.com/cyberspacedk/JS_POCKET/tree/master/ES6%20модули)
