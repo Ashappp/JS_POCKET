@@ -32,6 +32,4 @@
 
 #### [Bash команды](https://github.com/cyberspacedk/BASH-Commands)
 
-#### [VSCode hotkeys](https://github.com/cyberspacedk/VScode-hotkeys)
-
-#### [Все что может лежать в <HEAD>](https://github.com/cyberspacedk/HEAD-tag.-All-about-it)
+#### [VSCode hotkeys](https://github.com/cyberspacedk/VScode-hotkeys) 
