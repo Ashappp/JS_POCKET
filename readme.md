@@ -18,6 +18,7 @@
 
 ### [Regular Exression](https://github.com/cyberspacedk/JS_POCKET/tree/master/REGEXP)
 
+### [Инструменты (методы, проверки и т.п)](https://github.com/cyberspacedk/JS-Tools)
 ----------------
 ## Полезности
 
