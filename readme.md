@@ -4,6 +4,8 @@
 
 ### [Массивы](https://github.com/cyberspacedk/JS/tree/master/massive)
 
+### [Объекты](https://github.com/cyberspacedk/JS/tree/master/object)
+
 ### [Циклы](https://github.com/cyberspacedk/JS/tree/master/Cycle)
 
 ### [Работа с DOM](https://github.com/cyberspacedk/JS-DOM)
