@@ -44,67 +44,108 @@ mouseenter */
 //     e.target.style.top = `${customY}px`;
 // });
 
-const body = document.querySelector('body');
+// const body = document.querySelector('body');
 
-const overlayHTML = ` <div class="overlay-wrap hidden">
+// const overlayHTML = ` <div class="overlay-wrap hidden">
 
-                            <div class="overlay"> 
+//                             <div class="overlay"> 
 
-                                <div class="img-wrap">
-                                    <img class="image" src="">
-                                    <p class="image__title"></p>
+//                                 <div class="img-wrap">
+//                                     <img class="image" src="">
+//                                     <p class="image__title"></p>
 
-                                    <div class="controls">
-                                        <div class="gallery-sidebar__btn"></div>
-                                        <div class="close-btn">X</div>  
-                                    </div> 
+//                                     <div class="controls">
+//                                         <div class="gallery-sidebar__btn"></div>
+//                                         <div class="close-btn">X</div>  
+//                                     </div> 
 
-                                </div> 
-                            </div>
+//                                 </div> 
+//                             </div>
 
-                            <div class="gallery-sidebar"></div>
+//                             <div class="gallery-sidebar"></div>
 
-                        </div>`;
+//                         </div>`;
 
-body.innerHTML += overlayHTML;
+// body.innerHTML += overlayHTML;
 
-const image = document.querySelector('.image');
-const imgWrap = document.querySelector('.img-wrap');
-const imageTitle = document.querySelector('.image__title');
+// const image = document.querySelector('.image');
+// const imgWrap = document.querySelector('.img-wrap');
+// const imageTitle = document.querySelector('.image__title');
 
-const overlayWrap = document.querySelector('.overlay-wrap');
-const overlay = document.querySelector('.overlay');
-// controls
-const closeBtn = document.querySelector('.close-btn');
-const sidebarBtn = document.querySelector('.gallery-sidebar__btn');
+// const overlayWrap = document.querySelector('.overlay-wrap');
+// const overlay = document.querySelector('.overlay');
+// // controls
+// const closeBtn = document.querySelector('.close-btn');
+// const sidebarBtn = document.querySelector('.gallery-sidebar__btn');
 
-const gallerySidebar = document.querySelector('.gallery-sidebar');
-const gallery = body.querySelector("#gallery");
+// const gallerySidebar = document.querySelector('.gallery-sidebar');
+// const gallery = body.querySelector("#gallery");
 
 
-gallery.addEventListener('click', (e) => {  
-    if (e.target.nodeName !== 'IMG') return;
-    overlayWrap.classList.remove('hidden');
-    console.log(e);
-    image.setAttribute('src', e.target.dataset.big);
-    imageTitle.textContent = e.target.getAttribute('al'); 
-});
+// gallery.addEventListener('click', (e) => {  
+//     if (e.target.nodeName !== 'IMG') return;
+//     overlayWrap.classList.remove('hidden');
+//     console.log(e);
+//     image.setAttribute('src', e.target.dataset.big);
+//     imageTitle.textContent = e.target.getAttribute('al'); 
+// });
 
-overlay.addEventListener('click', (e)=>{
-    if(e.target == closeBtn || e.target == overlay)   overlayWrap.classList.add('hidden');
-})
+// overlay.addEventListener('click', (e)=>{
+//     if(e.target == closeBtn || e.target == overlay)   overlayWrap.classList.add('hidden');
+// })
 
-const allImage = [...document.querySelectorAll('#gallery img')].map(elem => elem.getAttribute('data-big'));
-allImage.forEach(elem => {
-    let singleImg = `<img class="single-image" src="${elem}">`;
-    gallerySidebar.innerHTML += singleImg; 
-})
+// const allImage = [...document.querySelectorAll('#gallery img')].map(elem => elem.getAttribute('data-big'));
+// allImage.forEach(elem => {
+//     let singleImg = `<img class="single-image" src="${elem}">`;
+//     gallerySidebar.innerHTML += singleImg; 
+// })
 
-sidebarBtn.addEventListener('click', (e)=>{
-    gallerySidebar.classList.toggle('sidebar-width');
-})
-gallerySidebar.addEventListener('click', (e)=>{
-    if(e.target.nodeName !== 'IMG') return;
-    image.setAttribute('src', e.target.src);
-    console.log(e);
-})
+// sidebarBtn.addEventListener('click', (e)=>{
+//     gallerySidebar.classList.toggle('sidebar-width');
+// })
+// gallerySidebar.addEventListener('click', (e)=>{
+//     if(e.target.nodeName !== 'IMG') return;
+//     image.setAttribute('src', e.target.src);
+//     console.log(e);
+// })
+
+// ::::::::::::::::::::::::: TIMER :::::::::::::::::::::::::::::::::::::::
+
+let days = document.querySelector('.days');
+let hours = document.querySelector('.hours');
+let minutes = document.querySelector('.minutes');
+let seconds = document.querySelector('.seconds'); 
+
+const deadline = new Date(2019, 2, 31, 12, 0, 0); 
+
+function timer () {
+    let today = Date.now();
+    let delta = deadline - today; 
+
+    let S = Math.floor(delta /1000 % 60);
+    let M = Math.floor(delta / 60000 % 60);
+    let H = Math.floor(delta / 3600000 % 24);
+    let D = Math.floor(delta / 86400000); 
+
+    seconds.textContent = S >= 10 ? S : `0${S}`;
+    minutes.textContent = M >=10 ? M : `0${M}`;
+    hours.textContent = H >= 10 ? H : `0${H}`;
+    days.textContent = D >= 10 ? D : `0${D}`;
+}
+
+
+setInterval(timer,1000);
+
+
+
+
+// window.addEventListener('DOMContentLoaded', (e)=>{
+
+// setInterval(function(){
+//     days.textContent = date.getDay(); 
+//     hours.textContent = date.getHours(); 
+//     minutes.textContent = date.getMinutes(); 
+//     seconds.textContent = date.getSeconds(); 
+// }, 1000)
+// });
+
