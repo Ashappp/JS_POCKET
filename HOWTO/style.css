@@ -102,7 +102,7 @@
   /* end  */
 
   /* second task */
-  .btn {
+  /* .btn {
     position: absolute;
     padding: 20px 30px;
     border-radius: 5px;
@@ -115,9 +115,8 @@
     text-transform: capitalize;
     font-size: 30px;
     transition: 0.3s ease all;
-    /*transform: translate(-50%);*/
-}
-.win {
+    
+/* .win {
     background-color: green;
 }
 .faill {
@@ -139,4 +138,112 @@
 }
 .hide {
     display: none;
+} */
+
+*{
+  box-sizing: border-box;
+  margin: 0;
+  padding: 0;
+}
+#gallery{
+  display: flex;
+  width: 55%;
+  margin: 10px auto;
+  flex-wrap: wrap; 
+}
+#gallery img{
+  width: 30%;
+  height: 300px;
+  margin: 3px;
+  border-radius: 5px;
+}
+.img-wrap{
+  width: 60%;
+  height: 90vh;
+  overflow: hidden;
+  transition: 1s linear;
+}
+.img-wrap img{
+  width: 100%;
+  height: 100%;
+  object-fit: cover;
+}
+
+.overlay-wrap{
+  position: absolute;
+  content: "";
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 100%;
+  background-color: rgba(0, 0, 0, 0.678); 
+  display: flex;
+  transition: .5s linear;
+
+}
+.overlay {
+  display: flex;
+  justify-content: center;
+  align-items: center;
+  transition: .5s linear;
+  position: relative;
+}
+.controls{
+  position: absolute;
+  content: "";
+  right: 5%;
+  top: 5%;
+  display: flex;
+}
+.close-btn{ 
+  width: 30px;
+  height: 30px;
+  background-color: rgb(219, 0, 0);
+  text-align: center;
+  line-height: 30px;
+  color: #fff;
+  border-radius: 50%;
+  font-family: sans-serif;
+  font-weight: 700;
+  cursor: pointer;
+
+} 
+.gallery-sidebar__btn{
+  width: 30px;
+  height: 30px;
+  background: url(./img/layout.png) no-repeat center;
+  background-size: 90%;
+  margin-right: 15px;
+  cursor: pointer;
+}
+.gallery-sidebar{ 
+  width: 0%;
+  background-color: #0000008c;;
+  height: 100vh; 
+  transition: 1s ease-in-out; 
+  display: flex;
+  flex-wrap: wrap; 
+  align-content: end;
+  transform-origin: 100% 0;
+  opacity: 0;
+}
+
+.single-image{
+  width: 50%;
+  height: 65px;
+}
+.single-image:hover{
+ filter: grayscale();
+}
+
+.sidebar-width{
+  width: 10%;
+  transition: 1s ease-in-out;
+  opacity: 1;
+}
+
+.hidden{
+  opacity: 0;
+  z-index: -100;
+  transition: .2s linear;
 }
