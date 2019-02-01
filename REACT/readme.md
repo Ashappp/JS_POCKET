@@ -143,3 +143,187 @@ const loginBox = <span> Login <span/>;
 }
 
 ```
+### Props
+
+Объект props создается автоматически и передается первым аргуметом в каждую функцию компонента.
+Если не передать никаких параметров то объект props будет пустой
+
+```jsx
+const TodoListItem = (props)=>{ // объявили 
+    return (
+        <span>{props.label}</span> // используем с ключом label
+    );
+};
+
+// далее используем в том месте где необходимо
+const List = () => { 
+  return (
+    <ul>
+      <li><TodoListItem label ='Drink Pepsi'/></li>  
+      <li><TodoListItem label ='Build React App'/></li>  
+    </ul>
+  );
+};
+
+// также можно использовать деструктуризацию объекта props и использовать нужные ключи 
+const TodoListItem = ( {label } )=>{ // деструктуризировали 
+    return (
+        <span>{props.label}</span> // используем с ключом label
+    );
+};
+
+```
+Также можно задать стили CSS, использовав объект с опсанием нужных стилей css
+```jsx  
+export const TodoListItem = ({label , important = false})=>{  
+
+// пропишем стили для important
+const colorStyle = { 
+    // если important true то прсвоится tomato, и наоборот
+    color: important ? 'tomato' : 'black', 
+}
+
+    return (
+        // тут используем свойство объекта со стилями
+        <span style={colorStyle}>{label}</span>
+    );
+};
+```
+
+### Массивы и подстановка данных 
+Если данные приходят например от сервера и нужно их отрисовывать динамически, то
+имеет смысл использовать методы массивов, такие как map, filter, reduce и т.п
+
+```jsx
+// В основном компоненте Apps
+const App = () => {
+
+// создаем массив с данными 
+  const todoData = [
+    {label: 'Drink Coffee' , important : false,},
+    {label: 'Build React App' , important : true,},
+    {label: 'Eat fright potatoes' , important : false,},
+  ];
+
+  return (
+    <div>
+      <Header />
+      <Search />
+      // запишем в поле todos объекта props весь массив, который будем использовать 
+      // ужу в компоненте List
+      <List todos={todoData}/>
+    </div>
+  );
+};
+
+// В компоненте List
+// передадим в параметрах массив созданный в Apps
+const List = ({todos}) => {
+
+// создадим переменную в которую поместим разметку с динамически родставляемыми данными используя цикл map. который проходит по каждому елементу и выдирает нужные поля 
+
+  const elements = todos.map((elem) => {
+    return (
+      <li>
+        <TodoListItem  label={elem.label} important={elem.important}/>
+      </li>  
+    );
+  });
+//   на этом етапе мы уже имеем созданную разметку , которую возвратим в значение компонента 
+  return (
+    <ul>
+       {elements} //отобразим созданную разметку
+    </ul>
+  );
+};
+
+```
+Если поля объекта props совпадают с именами полей елементов массива, который мы используем, то можно 
+использовать ...spread operator 
+```jsx
+const elements = todos.map((elem) => {
+    return (
+      <li>
+      // распылим елемент масива 
+        <TodoListItem  {...elem}/>
+      </li>  
+    );
+  });
+```
+
+### Коллекции и ключи 
+Когда React рендерит код он определяет какие елементы были изменены, для того чтобы повторно их не перерисовывать а обновить только то что ихменилось.
+Для этого елементу добавляется поле id которое имеет уникальное значение. 
+
+```jsx 
+// добавим в массив новое поле id
+  const todoData = [
+    {label: 'Drink Coffee' , important : false, id: 233},
+    {label: 'Build React App' , important : true, id: 43},
+    {label: 'Eat fright potatoes' , important : false, id: 789},
+  ];
+
+//затем при генерировании новой разметки с данными добавим новому елементу уникальный ключ id
+
+const List = ({todos}) => {
+
+  const elements = todos.map((elem) => {
+  // детсруктуризируем елемент массива, записав в отдельную переменную id а в другую переменную с помощью оператора ...rest поместим объект, который затем распилим  
+  const {id , ...restElem} = elem;    
+
+    return (
+      <li key={id}>
+        <TodoListItem  {...restElem} />
+      </li>  
+    );
+  });
+   
+  return (
+    <ul>
+       {elements}
+    </ul>
+  );
+};
+```  
+- каждому JSX елементу в массиве нужно уникальное свойство key
+- не делаем ключи из индексов массива
+
+### Классы
+
+Если компонент должен иметь состояние можно использовать классы. 
+Перепишем компонент TodoListItem из функции в класс
+
+1. ключевое слово class
+2. далее extends React.Component, указываем что наследуемся от класса Component
+3. в теле класса вызываем метод render(){ где пишем основной код }
+4. метод возвращает елемент . как и если бы мы использовали функциональный подход создания компонента
+5. если класс принимает какието параметры, то объект props будет доступен с помощью this.props
+
+```jsx
+export default class TodoListItem extends Component {
+
+  render() {
+
+    const { label, important = false } = this.props;
+
+    const style = {
+      color: important ? "steelblue" : "black",
+      fontWeight: important ? "bold" : "normal"
+    };
+
+    return (
+      <span className="todo-list-item"> 
+        <span className="todo-list-item-label" style={style} >
+          {label}
+        </span> 
+        <button type="button" className="btn btn-outline-success btn-sm float-right" >
+          <i className="fa fa-exclamation" />
+        </button> 
+        <button type="button" className="btn btn-outline-danger btn-sm float-right">
+          <i className="fa fa-trash-o" />
+        </button> 
+      </span>
+    );
+  }
+}
+```
