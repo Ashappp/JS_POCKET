@@ -327,3 +327,122 @@ export default class TodoListItem extends Component {
   }
 }
 ```
+
+### Обработка событий
+
+Если нужно обработать какоето событие, например 'click', то 
+1. на елементе прописываем атрибут onСlick 
+2. В качестве значения передаем функцию обработчик/Handler , в которой описываем дейтсвие при клике 
+3. Вверху класса напишем эту функцию, чтобы сохранялся контекс функция должна быть СТРЕЛОЧНОЙ
+
+```jsx 
+export default class TodoListItem extends Component {
+
+// функция Handler/обрабочик . должна быть стрелочной
+  onLabelClick = () => {
+    document.body.style.backgroundColor = 'red'; 
+  }
+
+  render() { 
+    const { label, important = false } = this.props; 
+
+    const style = {
+      color: important ? "steelblue" : "black",
+      fontWeight: important ? "bold" : "normal"
+    };
+
+    return (
+      <span className="todo-list-item"> 
+                                                // елемент на который повесили слушателя   
+        <span className="todo-list-item-label" style={style} onClick={this.onLabelClick}>
+          {label}
+        </span> 
+        <button type="button" className="btn btn-outline-success btn-sm float-right" >
+          <i className="fa fa-exclamation" />
+        </button> 
+        <button type="button" className="btn btn-outline-danger btn-sm float-right">
+          <i className="fa fa-trash-o" />
+        </button> 
+      </span>
+    );
+  }
+}
+```
+
+### Состояние 
+
+Внутреннее остояние компонента в React хранится в специальном поле  state, его можно инициализировать в несколькими способами.  
+
+1. конструкторе класса 
+```jsx
+export default class TodoListItem extends Component {
+constructor(){ 
+    super();
+// инициалтзируем STATE, в нашем случае передаем только одно поле done, значение которого мы будем менять при клике на елементы
+    this.state = { 
+        done: false,
+    }
+}
+......... остальной код 
+}
+```
+2. вне конструктора. используя новый синтаксис
+```jsx
+export default class TodoListItem extends Component { 
+// используем state вне поля constructor
+state = { 
+        done: false,
+    }
+......... остальной код 
+
+}
+```
+- Чтобы получить значение поля state используем деструктуризацию и поместим значение в переменную
+
+- создадим переменную которая будет хранить css класс , при определенном state будем добавлять туда дополнительный класс
+
+- выведем переменную в нужном елементе в атрибуте classNames = { переменная }
+
+- зададим условие, ЕСЛИ состояние поля done объекта state изменится с false на true то к переменной добавим некий класс done, в стилях которого прописан перечеркнутый текст
+
+- STATE после установки , напямую  изменять нельзя, поэтому используем метод 
+**setState( {в теле пишем то, что хотим изменить в STATE} )**
+
+```jsx
+
+export default class TodoListItem extends Component {
+
+// поле состояние state
+    state = { 
+        done: false,
+    }
+
+// при клике
+  onLabelClick = () => {
+// изменяем значение поля done объекта STATE на true
+    this.setState({done:true}) 
+  }
+
+  render() {
+
+// получим нужное значение объекта state и поместим его в переменную
+    const { done } = this.state;
+
+    const { label, important = false } = this.props; 
+    const style = {
+      color: important ? "steelblue" : "black",
+      fontWeight: important ? "bold" : "normal"
+    };
+// создадим переменную которая хранит в себе класс или классы, которые мы можем применять к елементам
+    let classNames = 'todo-list-item-label';
+// если в переменной которая хранит в себе значение поля done будет true , то добавим в переменную класс done
+   (done) ? classNames += ' done' : classNames; 
+
+    return (
+      <span className="todo-list-item"> 
+        <span className={classNames} style={style} onClick={this.onLabelClick}>
+          {label}
+        </span> 
+
+......... остальной код  
+```
