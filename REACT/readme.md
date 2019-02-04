@@ -371,7 +371,7 @@ export default class TodoListItem extends Component {
 
 ### Состояние 
 
-Внутреннее остояние компонента в React хранится в специальном поле  state, его можно инициализировать в несколькими способами.  
+Внутреннее остояние компонента в React хранится в специальном поле  state, его можно инициализировать несколькими способами.  
 
 1. конструкторе класса 
 ```jsx
@@ -446,3 +446,59 @@ export default class TodoListItem extends Component {
 
 ......... остальной код  
 ```
+Метод setState перетирает старое значение поля state на новое, поэтому при вызове метода setstate передаем только те свойтсва , которые нужно изменить 
+```jsx
+ state = { 
+        done: false,
+        important: false,
+    }
+
+//  МЕНЯЕМ ТОЛЬКО ТО, ЧТО НЕОБХОДИМО 
+ onLabelClick = () => {
+  // изменяем значение поля done объекта STATE на true
+        this.setState({done:true});
+      }
+  // изменяем значение поля important объекта STATE на true 
+  onMarkImportant =()=>{
+    this.setState({important:true});
+  }
+
+```
+#### Обновление текущего состояния State 
+
+Для того что обновлять текущее состояние state, типа toggle, нужно 
+- в методе setstate передать state как аргумент функции и там сделать возврат с отрицанием !
+- или деструктуризировать нужное поле и вызвать его отрицание !
+
+```jsx 
+ state = { 
+        done: false,
+        important: false,
+    }
+
+onMarkImportant = () => { 
+
+  this.setState( (state) => {   // передаем в аргументе объект state
+    return {
+      important: !state.important, // флипаем поле important
+    }; 
+  });
+};
+
+onLabelClick = () => {
+    this.setState( ({done}) => { // также можно деструктуризировать нужное поле 
+      return{
+      done: !done, // и тут его флипнуть 
+    }
+  });
+}
+
+```
+
+### Неизменность State
+
+- setState НЕ должен изменять текущий state
+
+- методы, которые изменяют (МУТИРУЮТ) массив использовать НЕЛЬЗЯ
+
+- newArr = [...oldArr.slice(0,idx), ...oldArr.slice(idx+1)] Не мутирует старый массив
