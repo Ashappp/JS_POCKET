@@ -344,6 +344,17 @@ const patternB = /\d{0,};
 ```javascript
 /^(https?:\/\/)?([\da-z\.-]+)\.([a-z\.]{2,6})([\/\w \.-]*)*\/?$/
 ```
+#### Поиск ТОЛЬКО имени файла из пути 
+
+```javascript 
+/[ \w-]+?(?=\.)/gi
+
+"../img/NorthernRealms/KAEDWENI_CAVALRY.png"
+"../img/Neutral/THUNDERBOLT.png"
+"../img/Neutral/marching_orders.png"
+"../img/NorthernRealms/THALER.png"
+"../img/Monster/SLYZARD.png"
+```
 
 ------------
 
