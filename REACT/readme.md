@@ -678,22 +678,78 @@ this.setState({ ключ: значение }); // попадает снимок 
 
 ```jsx
 this.setstate( (prevState, props) => ({
-  value : prevState.value + 1,  // обновленный state + новое значение
+  value : prevState.value + props.value,  // обновленный state + новое значение
 }) )
 
 ```
+- ИСПОЛЬЗУЕМ данный способ ЕСЛИ НУЖНО ПРЕДЫДУЩЕЕ СОСТОЯНИЕ state
+- props передаем если они используются для обновления state
 
+### Поднятие STATE. state hoisting
 
+Если нужно из дочерних компонентов ихменить состояние родителя, а как известно props могут передаваться только вниз по цепочке ТО используется метод всплытия state. 
 
+1. В родителе есть state и метод, который ЕГО ИЗМЕНЯЕТ
+2. ЭТОТ метод пробрасывается в качестве props для компонента , который ниже
+3. В нижнем компоненте ВЫЗЫВАЕМ этот метод
+4. Когда этот метод вызывается ТО происходит изменение состояния РОДИТЕЛЬСКОГО компонента и перерендер
 
+```jsx
+// Button получает функцию onClick (имя пропа) которая вызывается при событии
+onClick
 
+const Button = ({ onClick, label }) => (
+ <button onClick={onClick}>{label}</button>
+);
+
+class App extends Component {
+
+ state = {
+ message: 'before click',
+ };
+
+ // Метод который будем передавать в Button для вызова при клике
+ updateMessage = evt => {
+  this.state({ message: 'after click' });
+ };
+
+ render() {
+    const { message } = this.state;
+
+  return (
+    <div>
+      <h1>{message}</h1> 
+      <Button 
+        label="Change message" 
+        onClick={this.updateMessage}  // пробросили в Button метод класса
+      />
+    </div>
+  );
+
+  }
+}
+```
 
 ### Контролируемый компонент
 
-Чтобы компонент был контролируемым, нужно чтобы его значение бралось из State
 
-### Полезности
+Форма и ее инпуты. Чтобы компонент был контролируемым, нужно чтобы его значение бралось из State.
 
+1. Вешаем на инпут событие onChange ={this.методКоторыйИзмСтейт} и при изменении поля input срабатывает событие и обработчик меняет значение в поле state
+
+2. Значение input должно браться из  state, поэтому для input прописываем атрибут value={this.state.inputValue} в который помещаем значение поля state
+
+Получается закольцовка, 
+- ЗНАЧЕНИЕ state берется из input
+- ЗНАЧЕНИЕ для input берется из state
+
+_________________________________________________
+_________________________________________________
+
+
+### ПАТТЕРНЫ
+
+1) Деструктуризация значений  -----------------------------
 - деструктуризировать props 
 - деструктуризировать state 
 
@@ -707,7 +763,146 @@ return(
   ...code
 )
 
+} 
+```
+
+2) Паттерн для полей форм ---------------------------
+
+При заполнении формы у нас присутствуют разные инпуты, такие как email, password, text и т.п. для того чтобы собрать  с них значения нужно для каждого инпута вешать событие onchange и обработчик для кажого инпута свой. Для того чтобы не плодить множество обработчков, существует паттерн. 
+Привязываемся к значению атрибута name, который зададим для каждого инпута свой и затем используя объект события и вычисляемое свойство объета [ключ] : значение, будем записывать такие значения в state
+
+```jsx
+state = {
+  login : '',
+  email : '',
+  password : '',
 }
 
+// один обработчик для каждого инпута
+handleChange = (evt) => {
+  this.setState({
+    // берем значение атрибута name и значение value у инпутов
+    [evt.target.name] : evt.target.value,
+  })
+}
 
+render(){
+  // для удобства деструктуризируем state
+  const {login, email, password} = this.state;
+  return(
+    <form>
+      <input name="login" onchange={this.handleChange} value={login}>
+      <input name="email" onchange={this.handleChange} value={email}>
+      <input name="password" onchange={this.handleChange} value={password}> 
+    </form>
+  )
+}
+```
+Аналогичные трюки можно проделывать и с остальными елементами формы такими как checkbox, radio, select 
+
+3) Перебор коллекции -------------------------------
+
+
+```jsx 
+
+// основной класс App
+class App extends Component{
+
+// в стейте будет массив заметок  [{...}, {...}, {...}]
+state = { 
+  notes: []
+}
+
+// метод создания новой заметки и обновления стейта. ВЫЗЫВАТЬСЯ будет в дочернем компоненте при сабмите формы. значение text - это будет значение input
+addNote = (text) =>{
+  // новая заметка
+  const note = {
+    id: Math.floor(Math.random()*1000),
+    text 
+  }
+// обновляем state, записываем новый елемент {} который создали выше, и спреднули старый елемент. НА БАЗЕ ПРЕДЫДУЩЕГО СОСТАВЛЯЕМ НОВОЕ
+  this.setState ((prevState)=>({
+    notes : [note , ...prevState.notes],
+  })) 
+}  
+
+deleteNote = (id)=>{
+  this.setState((prevState)=>({
+    notes : prevState.notes.filter(elem => elem.id !== id),
+  }))
+}
+
+render (){
+// поместим в переменную массив заметок из state
+  const {notes} = this.state;
+  return (
+// пробросим кастомный prop onSubmit, в который передадим метод добавления новой заметки
+    <NoteEditor customSubmit={this.addNote}/>
+// пробросим кастомный props в который передадим массив заметок для рендера
+    <NoteList notes={notes} filterNote={this.deleteNote}/>
+  )
+} 
+} // end App
+
+//----------- ДРУГОЙ файл. КОМПОНЕНТ ФОРМЫ ---------------
+class NoteEditor extends Component{
+
+// в стейте значение инпута формы
+  state = {
+    value: '',
+  }
+
+// метод/обработчик для обновления state из поля input
+handleChange = (evt) =>{
+  this.setState({
+    value : evt.target.value,
+  });
+}
+
+// метод/обработчик для сабмита формы 
+handleSubmit = (evt) =>{
+  evt.preventDefault();
+
+// проверка на пустое поле state
+  if(this.state.value.trim() === '') return;
+
+// вызываем проброшенный кастомный props из App, значением которого является метод компонента App, который создает новую заметку, аргументом передается текст, который мы получили из инпута формы и который записан в state
+  this.props.customSubmit(this.state.value);
+
+// после использования очищаем поле state
+  this.setState({
+    value: '',
+  })
+}
+
+  render(){ 
+    // поместим в переменную значение поля value из  state
+    const {value} = this.state;
+
+    return (
+
+      <form onSubmit={this.handleSubmit}>
+        <input  type="text" onchange={this.handleChange} value={value}>
+        <button>Add note<button/>
+      </form> 
+    )
+  }
+}; 
+```
+```jsx
+//----------- ТРЕТИЙ файл. КОМПОНЕНТ СПИСОК ---------------
+
+// деструктуризируем проброшенный массив заметок notes
+const NoteList = ({notes, filterNote})=> {
+  <ul>
+// отобразим заметки в <li> перебрав их методом map()
+    {notes.map(elem=> (
+      <li key={elem.id}> 
+        <p>{elem.text}</p>
+// в обработчик передадим проброшенный через props filterNote
+        <button onClick={ () => filterNote(elem.id) }> Delete <button/>
+      </li>
+      ))}
+  </ul>
+}
 ```
