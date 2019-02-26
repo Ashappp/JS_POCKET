@@ -800,7 +800,7 @@ render(){
 ```
 Аналогичные трюки можно проделывать и с остальными елементами формы такими как checkbox, radio, select 
 
-3) Перебор коллекции -------------------------------
+3) Перебор коллекции / Создание массива объектов / Живой поиск  --------------
 
 
 ```jsx 
@@ -808,12 +808,13 @@ render(){
 // основной класс App
 class App extends Component{
 
-// в стейте будет массив заметок  [{...}, {...}, {...}]
+// в стейте будет массив заметок  [{...}, {...}, {...}] и фильтр, по которому будем фильтровать елементы массива
 state = { 
-  notes: []
+  notes: [],
+  filter: '',
 }
 
-// метод создания новой заметки и обновления стейта. ВЫЗЫВАТЬСЯ будет в дочернем компоненте при сабмите формы. значение text - это будет значение input
+// метод создания новой заметки и обновления стейта. ВЫЗЫВАТЬСЯ будет в дочернем компоненте при сабмите формы. Параметр text - это будет значение input
 addNote = (text) =>{
   // новая заметка
   const note = {
@@ -825,21 +826,31 @@ addNote = (text) =>{
     notes : [note , ...prevState.notes],
   })) 
 }  
-
+// Метод удаления елемента-заметки из массива заметок. Вызывается как обработчик на клик по кнопке в компоненте NoteList. Параметр id  это id текущего елемента 
 deleteNote = (id)=>{
   this.setState((prevState)=>({
     notes : prevState.notes.filter(elem => elem.id !== id),
   }))
 }
+// Метод который получает и сетит строку по которой будет фильтроваться массив заметок. Вызывается как обработчик onChange на инпуте в компоненте Search
+filterNotes = (evt) =>{
+  this.setState({filter : evt.target.value})
+}
+
+
 
 render (){
-// поместим в переменную массив заметок из state
-  const {notes} = this.state;
+// поместим в переменную массив заметок и значение поля filter из state
+  const {notes, filter} = this.state;
+// создадим отфильтрованный массив НА БАЗЕ МАССИВА ИЗ state, возьмем массив и значение фильтра из state 
+  const filteredArr = notes.filter(elem=> elem.text.includes(filter))
   return (
 // пробросим кастомный prop onSubmit, в который передадим метод добавления новой заметки
     <NoteEditor customSubmit={this.addNote}/>
+// Фильтр
+    <Search value={filter} filterNote={this.filterNotes}/>
 // пробросим кастомный props в который передадим массив заметок для рендера
-    <NoteList notes={notes} filterNote={this.deleteNote}/>
+    <NoteList notes={filteredArr} removeNote={this.deleteNote}/>
   )
 } 
 } // end App
@@ -883,7 +894,7 @@ handleSubmit = (evt) =>{
     return (
 
       <form onSubmit={this.handleSubmit}>
-        <input  type="text" onchange={this.handleChange} value={value}>
+        <input  type="text" onChange={this.handleChange} value={value}>
         <button>Add note<button/>
       </form> 
     )
@@ -894,16 +905,28 @@ handleSubmit = (evt) =>{
 //----------- ТРЕТИЙ файл. КОМПОНЕНТ СПИСОК ---------------
 
 // деструктуризируем проброшенный массив заметок notes
-const NoteList = ({notes, filterNote})=> {
+const NoteList = ({notes, removeNote})=> {
   <ul>
 // отобразим заметки в <li> перебрав их методом map()
     {notes.map(elem=> (
       <li key={elem.id}> 
         <p>{elem.text}</p>
-// в обработчик передадим проброшенный через props filterNote
-        <button onClick={ () => filterNote(elem.id) }> Delete <button/>
+// в обработчик передадим проброшенный через props removeNote
+        <button onClick={ () => removeNote(elem.id) }> Delete <button/>
       </li>
       ))}
   </ul>
+}
+```
+```jsx
+//----------- ЧЕТВЕРТЫЙ файл. КОМПОНЕНТ ПОИСК ---------------
+
+// деструктуризируем проброшенный массив заметок notes
+const Search = ({filter, filterNote})=> {
+   return ( 
+// значение инпута это значение поля filter из App 
+// метод компонента Арр filterNote, который меняет поле filter state 
+      <input type="text" value={filter} onChange={filterNote}/>  
+   )
 }
 ```
