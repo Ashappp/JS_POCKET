@@ -843,7 +843,8 @@ render (){
   )
 } 
 } // end App
-
+```
+```jsx
 //----------- ДРУГОЙ файл. КОМПОНЕНТ ФОРМЫ ---------------
 class NoteEditor extends Component{
 
