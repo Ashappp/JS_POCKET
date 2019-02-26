@@ -2,6 +2,8 @@
 ----------------
 ## Конспект по JAVASCRIPT 
 
+### [React](https://github.com/cyberspacedk/JS_POCKET/tree/master/REACT)
+
 ### [Массивы](https://github.com/cyberspacedk/JS/tree/master/massive)
 
 ### [Объекты](https://github.com/cyberspacedk/JS/tree/master/object)
