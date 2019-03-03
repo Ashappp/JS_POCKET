@@ -1085,7 +1085,7 @@ class ToDoApp extends React.Component {
 
 ---
 
-### ПАТТЕРНЫ
+### ПАТТЕРНЫ и прочие полезные приемы
 
 Добавление класса css по условию -----------------------------
 
@@ -1346,6 +1346,7 @@ const NoteList = ({notes, removeNote})=> {
 //----------- ЧЕТВЕРТЫЙ файл. КОМПОНЕНТ ПОИСК ---------------
 
 // деструктуризируем проброшенный массив заметок notes
+<<<<<<< HEAD
 const Search = ({ filter, filterNote }) => {
   return (
     // значение инпута это значение поля filter из App
@@ -1353,4 +1354,13 @@ const Search = ({ filter, filterNote }) => {
     <input type="text" value={filter} onChange={filterNote} />
   );
 };
+=======
+const Search = ({filter, filterNote})=> {
+   return ( 
+// значение инпута это значение поля filter из App 
+// метод компонента Арр filterNote, который меняет поле filter state 
+      <input type="text" value={filter} onChange={filterNote}/>  
+   )
+}
+>>>>>>> ad9fc642d9a7b1f4eaf520f262b626a6dbdd0c63
 ```
