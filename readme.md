@@ -4,6 +4,8 @@
 
 ### [React](https://github.com/cyberspacedk/JS_POCKET/tree/master/REACT)
 
+### [Routing](https://github.com/cyberspacedk/JS_POCKET/tree/master/Routing)
+
 ### [Массивы](https://github.com/cyberspacedk/JS/tree/master/massive)
 
 ### [Объекты](https://github.com/cyberspacedk/JS/tree/master/object)
