@@ -1,5 +1,165 @@
 ![pic](http://i.piccy.info/i9/cdb7fd6b252cef4fc4a19d807fd57a29/1552639087/14334/1307368/1_SRL22ADht1NU4LXUeU4YVg.png) 
 
+Установка 
+
+git clone https://github.com/cyberspacedk/react_redux_starter_build.git
+
+
+1- ставим пакеты
+2- создаем структуру проекта
+3- создаем редюсеры
+4- создаем стор
+5- создаем экшены
+6- вызываем connect
+
+
+Тип поля стейта определяет reducer при инициализации (state = , action)
+Значение поля стейта формирует action, которое возвращает reducer
+Новое поле ключ:значение записываем в rootReducer /Reducers/index.js
+
+
+__________________________________________________
+1. Установить неcколько пакетов 
+```jsx
+npm i react-redux redux
+```
+
+2. в структуре проекта создать папку scr/redux/
+
+3. в папке redux создаем папки store, actions, reducers
+
+4. импортируем компонент provider, передаем ему пропсом store и оборачиваем <App>
+```jsx
+import React from "react";
+import ReactDOM from "react-dom";
+import { Provider } from "react-redux";
+import store from './Redux/Store/store'
+
+import App from "./App.jsx";
+import "./index.css";
+
+ReactDOM.render(
+  <Provider store={store}>
+    <App />
+  </Provider>,
+  document.getElementById("root")
+);
+
+```
+ 
+6. в папке reducers создаем файл index.js и для начала один редюсер counter.js 
+
+7. в файле counter.js создадим reducer counter
+```jsx
+const counter = (state = 0, action) => {
+    switch(action.type){
+        case 'PLUS': return state + 1;
+        case 'MINUS': return state - 1;
+        case 'RESET': return 0;
+        default : return state;
+    }
+}
+```
+
+8. в файле index.js в папке reducers, импортим функцию combinedReducers и редюсер counter
+
+9. вызвали функцию combinedReducers, которая принимает аргументом объект, если ключ объекта и имя редюсера совадает, то можем записать сокращенным методом. производим экспорт
+
+```jsx
+import {combineReducers } from 'redux';
+
+import counter from './counter';
+
+
+const rootReducer = combineReducers ({
+    // сокращенная запись
+    counter,
+    // если ключ отличается от редюсера по имени
+    value: counter,
+})
+
+export default rootReducer; 
+```
+   
+10. в папке Store создаем файл store.js
+
+11. в файле store.js заимпортим функцию создания stora , подключим возможность redux devtool , создадим stor, сдеалаем экспорт и  производим импорт rootReducer из файла index.js папки reducers и передаем его в аргументом при создании стора
+```jsx
+import {createStore} from 'redux'; 
+import rootReducer from '../Reducers/index';
+
+const devTools = window.__REDUX_DEVTOOLS_EXTENSION__  && window.__REDUX_DEVTOOLS_EXTENSION__();
+ 
+const store = createStore(rootReducer, devTools);
+
+export default store;
+```
+ 
+12. в папке actions создаем файл counterActions.js где будут создаваться действия 
+
+13. в файле напишем функции экшены
+```jsx
+export const plus = ()=> ({ type: 'PLUS'})
+export const minus = ()=> ({ type: 'MINUS'})
+export const reset = ()=> ({ type: 'RESET'})
+
+``` 
+
+14. импортируем экшены туда где будем их использовать, в нашем случае в <App />
+
+15. импортурем метод connect, который даст доступ к глобальному state, откуда можно будет взять значения 
+
+16. connect() это функция высшего порядка, которая принимает аргументами функции mapStateToProps и mapDispatchToProps
+
+17. mapStateToProps принимает агрументом текущий глобальный state. Возвращает объект. Этот объет будет помещен в текущий пропс компонета. Поля/имя_пропсов объекта указываем сами.
+
+18.mapDispatchToProps принимает агрументом метод dispatch, который запускает action. связывает экшены с редюсерами. Возвращает также объект, который будет помещен в объект пропс компонента. В ключи помещаем экшены, которые импортировали из файла  counterActions.js
+
+19. После вызова этих двух функций получаем объект пропс с созданными полями, которые используем в компоненте работая как с обычным пропс.
+
+20. вызовем метод connect(mapStateToProps,mapDispatchToProps)(App);
+
+21. Наглядно ниже. 
+
+```jsx
+import React, { Component } from 'react'; 
+import './App.css';
+import {connect} from 'react-redux';
+import * as actions from './Redux/Actions/counterActions';
+
+class App extends Component {
+  render() {
+// дуструктуризируем props
+    const{value, plus,minus,reset}=this.props; 
+    
+    return (
+      <div className="counter">   
+        <p>{value}</p>
+        <button onClick={plus}>+ 1</button>
+        <button onClick={reset}>reset</button>
+        <button onClick={minus}>- 1</button> 
+      </div>
+     
+    );
+  }
+}
+ 
+// обращаемся к state и берем то что нужно  
+const mapStateToProps = (state) => ({value: state.counter,});
+
+// обращаемся к экшенам и связваем их с редюсером методом dispatch() , поместив эти медоты как поля props
+const mapDispatchToProps = (dispatch)=> ({
+  plus :() => dispatch( actions.plus()),
+  minus :() => dispatch( actions.minus()),
+  reset :() => dispatch( actions.reset()) 
+})
+  
+
+export default connect(mapStateToProps,mapDispatchToProps)(App);
+
+```
+
+ 
 
 ### Основные принципы Redux
 
@@ -187,7 +347,8 @@ const store = createStore(reducer)
  позволяет получить текущее состояние store
 
 - store.dispatch(action) 
- для того чтобы отправить action при наступлении каких то событий. ПРИНИМАЕТ аргуметом тот ACTION который мы хотим ВЫСТРЕЛИТЬ. Далее этот ВЫСТРЕЛ ЛОВИТ редюсер, проходится по ВАРИАНТАМ (type) которые в нем есть и сравнивает с ВЫСТРЕЛОМ (type), если находит такой то НАПРАВЛЯЕТ ЗНАЧЕНИЕ (payload) ВЫСТРЕЛА в СТОР для ИЗМЕНЕНИЯ. 
+ для того чтобы отправить action при наступлении каких то событий. ПРИНИМАЕТ аргуметом тот ACTION который мы хотим ВЫСТРЕЛИТЬ. 
+ Далее этот ВЫСТРЕЛ ЛОВИТ редюсер, проходится по ВАРИАНТАМ (type) которые в нем есть и сравнивает с ВЫСТРЕЛОМ (type), если находит такой то НАПРАВЛЯЕТ ЗНАЧЕНИЕ (payload) ВЫСТРЕЛА в СТОР для ИЗМЕНЕНИЯ. 
 
 - store.subscribe(func) 
  func -это функция подписчик, подписывается на изменение стора. агрумент, это хендлер функция, которая что-то делает при изменении стора. 
@@ -222,7 +383,7 @@ npm i react-redux redux
 import { combneReducers } from 'redux';
 import myReducer from './reducers';
 
-// создадим переменную rooReducer в которую поместим объект state c ссответствующими редюсерами
+// создадим переменную rootReducer в которую поместим объект state c ссответствующими редюсерами
 
 const rootReducer = combineReducers ( {
     value : myReducer  // myReducer отвечает за поле value в объекте state
