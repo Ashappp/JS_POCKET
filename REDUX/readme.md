@@ -11,7 +11,7 @@ git clone https://github.com/cyberspacedk/react_redux_starter_build.git
 4- создаем стор
 5- создаем экшены
 6- вызываем connect
-
+ 
 
 Тип поля стейта определяет reducer при инициализации (state = , action)
 Значение поля стейта формирует action, которое возвращает reducer
@@ -21,7 +21,7 @@ git clone https://github.com/cyberspacedk/react_redux_starter_build.git
 __________________________________________________
 1. Установить неcколько пакетов 
 ```jsx
-npm i react-redux redux
+npm i react-redux redux redux-thunk
 ```
 
 2. в структуре проекта создать папку scr/redux/
@@ -84,13 +84,20 @@ export default rootReducer;
 10. в папке Store создаем файл store.js
 
 11. в файле store.js заимпортим функцию создания stora , подключим возможность redux devtool , создадим stor, сдеалаем экспорт и  производим импорт rootReducer из файла index.js папки reducers и передаем его в аргументом при создании стора
+
+Также добавим поддержку middleware 
+- заимпортив из redux applyMiddleware
+- добавить третьим аргументом в создании стора applyMiddleware(thunk)
+
+
 ```jsx
-import {createStore} from 'redux'; 
-import rootReducer from '../Reducers/index';
+import {createStore, applyMiddleware} from 'redux';
+import thunk from 'redux-thunk';
+import rootReducer from '../Reducers/rootReducer';
 
 const devTools = window.__REDUX_DEVTOOLS_EXTENSION__  && window.__REDUX_DEVTOOLS_EXTENSION__();
- 
-const store = createStore(rootReducer, devTools);
+
+const store = createStore(rootReducer, devTools, applyMiddleware(thunk));
 
 export default store;
 ```
@@ -191,7 +198,7 @@ export default connect(mapStateToProps,mapDispatchToProps)(App);
 
 
 
-## Actions
+## Actions CONTROLLER
 
 Действия (actions) - это события, они доставляют данные из приложения в хранилище. 
 
@@ -232,7 +239,7 @@ const addNote = text => ({
 }); 
 ```
 
-### Reducers
+### Reducers   MODEL
 
 Берут ПРЕДЫДУЩЕЕ состояние и ДАННЫЕ из action и МЕРДЖИТ их.
 
