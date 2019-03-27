@@ -18,6 +18,8 @@
 
 ### [Работа с DOM](https://github.com/cyberspacedk/JS-DOM)
 
+### [Event](https://github.com/cyberspacedk/JS_POCKET/tree/master/Event)
+
 ### [REST Api](https://github.com/cyberspacedk/JS-backend/tree/master)
 
 ### [ES6 модули](https://github.com/cyberspacedk/JS_POCKET/tree/master/ES6%20модули)
