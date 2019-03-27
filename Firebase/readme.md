@@ -1,3 +1,5 @@
+![pic](http://i.piccy.info/i9/31f128f24d43ee72ec6fbfe2c4d98f09/1553719913/17856/1309575/social.png)
+
 Ставим
 
 ```jsx
@@ -6,7 +8,7 @@ npm i firebase
 
 Логинимся под своим гугл аккаунтом, создаем новый проект и копируем конфигурационные данные которые соответствуют проекту
 ```jsx
-/import firebase from 'firebase'; 
+import firebase from 'firebase'; 
  
   // Initialize Firebase
   const config = {
