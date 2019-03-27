@@ -4,6 +4,8 @@
 
 ### [React](https://github.com/cyberspacedk/JS_POCKET/tree/master/REACT)
 
+### [Redux](https://github.com/cyberspacedk/JS_POCKET/tree/master/REDUX)
+
 ### [Routing](https://github.com/cyberspacedk/JS_POCKET/tree/master/Routing)
 
 ### [Patterns_React](https://github.com/cyberspacedk/JS_POCKET/tree/master/Patterns(React))
