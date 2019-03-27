@@ -8,7 +8,9 @@
 
 ### [Routing](https://github.com/cyberspacedk/JS_POCKET/tree/master/Routing)
 
-### [Patterns_React](https://github.com/cyberspacedk/JS_POCKET/tree/master/Patterns(React))
+### [Firebase](https://github.com/cyberspacedk/JS_POCKET/blob/master/Firebase/readme.md)
+
+### [Useful React Redux Tricks](https://github.com/cyberspacedk/JS_POCKET/tree/master/Patterns(React))
 
 ### [Массивы](https://github.com/cyberspacedk/JS/tree/master/massive)
 
@@ -18,11 +20,15 @@
 
 ### [Работа с DOM](https://github.com/cyberspacedk/JS-DOM)
 
+### [Event](https://github.com/cyberspacedk/JS_POCKET/tree/master/Event)
+
 ### [REST Api](https://github.com/cyberspacedk/JS-backend/tree/master)
 
 ### [ES6 модули](https://github.com/cyberspacedk/JS_POCKET/tree/master/ES6%20модули)
 
 ### [Webpack](https://github.com/cyberspacedk/JS_POCKET/tree/master/Webpack)
+
+### [Gulp](https://github.com/cyberspacedk/JS_POCKET/tree/master/Gulp)
 
 ### [Шаблонизация](https://github.com/cyberspacedk/JS_POCKET/tree/master/%D0%A8%D0%B0%D0%B1%D0%BB%D0%BE%D0%BD%D0%B8%D0%B7%D0%B0%D1%86%D0%B8%D1%8F)
 
@@ -31,6 +37,8 @@
 ### [Regular Exression](https://github.com/cyberspacedk/JS_POCKET/tree/master/REGEXP)
 
 ### [Инструменты (методы, проверки и т.п)](https://github.com/cyberspacedk/JS-Tools)
+
+### [Разные тесты для интервью](https://github.com/cyberspacedk/JS_POCKET/blob/master/For%20interviews/readme.md)
 
 ### [Особенности и странности JS](https://github.com/cyberspacedk/TIPS-of-Javascript)
 ----------------

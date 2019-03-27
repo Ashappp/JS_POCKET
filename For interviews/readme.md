@@ -1,5 +1,6 @@
-## ⭐️⭐️⭐️ IMPROVE YOUR JS SKILLS ⭐️⭐️⭐️
+##                                    ⭐️⭐️⭐️ IMPROVE YOUR JS SKILLS ⭐️⭐️⭐️
 
+![pic](http://i.piccy.info/i9/9811670f8795e9d015f4efc407aed662/1553719191/56056/1309575/javascript.png)
 ```jsx
 
 💡 Какое будет выведено значение:
