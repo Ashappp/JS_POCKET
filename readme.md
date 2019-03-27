@@ -8,7 +8,9 @@
 
 ### [Routing](https://github.com/cyberspacedk/JS_POCKET/tree/master/Routing)
 
-### [Patterns_React](https://github.com/cyberspacedk/JS_POCKET/tree/master/Patterns(React))
+### [Firebase](https://github.com/cyberspacedk/JS_POCKET/blob/master/Firebase/readme.md)
+
+### [Useful React Redux Tricks](https://github.com/cyberspacedk/JS_POCKET/tree/master/Patterns(React))
 
 ### [Массивы](https://github.com/cyberspacedk/JS/tree/master/massive)
 
