@@ -1,21 +1,21 @@
 ## ⭐️⭐️⭐️ IMPROVE YOUR JS SKILLS ⭐️⭐️⭐️
- 
+
 ```jsx
 
-💡 Какое будет выведено значение: 
+💡 Какое будет выведено значение:
 let x = 5; alert( x++ );
 // 5 так как применили инкремет в ПОСТФИКСНОЙ форме
 
 
-💡 Чему равно такое выражение: 
-[ ] + false - null + true 
+💡 Чему равно такое выражение:
+[ ] + false - null + true
 // Nan
 
-💡 Что выведет этот код: 
-let y = 1; let x = y = 2; alert(x); 
+💡 Что выведет этот код:
+let y = 1; let x = y = 2; alert(x);
 // 2
 
-💡 Чему равна сумма 
+💡 Чему равна сумма
 [ ] + 1 + 2
 // 12
 
@@ -23,33 +23,81 @@ let y = 1; let x = y = 2; alert(x);
 alert( "1"[0] )
 // 1
 
-💡 Чему равно 
-2 && 1 && null && 0 && undefined 
+💡 Чему равно
+2 && 1 && null && 0 && undefined
 //null
 
 💡 Есть ли разница между выражениями
 !( a && b ) и (a && b)
 
-💡 Что выведет этот код: 
-alert( null || 2 && 3 || 4 ) 
-// 3   
+💡 Что выведет этот код:
+alert( null || 2 && 3 || 4 )
+// 3
 
-💡 Правда ли что a == b 
-a = [1, 2, 3]; b = [1, 2, 3]; 
+💡 Правда ли что a == b
+a = [1, 2, 3]; b = [1, 2, 3];
 // false, так как массивы не равны друг другу
 
-💡 Что выведет этот код: 
-alert( +"Infinity" ); 
+💡 Что выведет этот код:
+alert( +"Infinity" );
 // Infinity
 
-💡 Верно ли сравнение: 
+💡 Верно ли сравнение:
 "ёжик" > "яблоко"
 // true
 
-💡 Чему равно
+💡 Чему равно 
  0 || "" || 2 || undefined || true || falsе 
-// 2 
- 
+// 2
+
+// *** conversion-1 *** //
+
+		const a = 'some' + false;
+		const b = [1,2,3] + '1';
+		const c = 'any' + 123;
+
+		console.log(a, b, c);
+
+
+		// *** conversion-2 *** //
+
+		const a = 1 + '123';
+		const b = 1 + +'123';
+		const c = 2 + +'123ab';
+
+		console.log(a, b, c);
+
+
+
+		// *** conversion-3 *** //
+
+		const a = !!'';
+		const b = !!-1;
+		const c = !![1];
+		const d = !![];
+
+		console.log(a, b, c, d);
+
+
+		// *** conversion-4 *** //
+
+
+		const a = true + false;
+		const b = false + '';
+		const c = !![1];
+		const d = !![];
+
+		console.log(a, b, c, d);
+
+
+		// *** conversion-5 *** //
+
+		const a = Boolean(NaN);
+		const b = Boolean(null);
+		const c = Boolean(undefined);
+		const d = Boolean(false);
+
+		console.log(a, b, c, d);
 
 💡 what print console
 
@@ -60,7 +108,7 @@ console.log(typeof undefined)
 console.log(typeof {})
 console.log(typeof null)
 console.log(typeof function(){})
- 
+
 console.log(null == undefined)
 
 console.log(undefined === undefined)
@@ -75,7 +123,7 @@ console.log(NaN == NaN)
 💡 What would following code return?
 console.log(typeof typeof 1);
 
-💡 
+💡
 var obj = {};
 Object.defineProperty(obj, 'a', {writable: true,  configurable: true,  value: 'a'});
 Object.defineProperty(obj, 'b', {writable: false, configurable: true,  value: 'b'});
@@ -140,7 +188,7 @@ var foo = {};
 foo.bar = 'hello';
 console.log(foo.length)
 
-💡 
+💡
 var RED = 'red';
 const red = 'red';
 
@@ -158,7 +206,7 @@ var c = {};
 var d = {};
 conslole.log(c === d);
 
-💡 
+💡
 'use strict'
 
 var zombie = {
@@ -463,7 +511,7 @@ var data={"users":[
 
 a. document.write(data.users.firstName)
 b. document.getElementById(“placeholder”).innerHTML = data.users.firstName
-c. document.getElementById(“placeholder”).innerHTML = data.users[0].firstName +” “+ 
+c. document.getElementById(“placeholder”).innerHTML = data.users[0].firstName +” “+
 d. data.users[0].lastName + “–” + data.users[0].birthday.month
 e. document.getElementById(“placeholder”).innerHTML = data.users[0].firstName +” “+ data.users[0]
 
@@ -556,4 +604,632 @@ a. 11
 b. 3
 c. 30
 d. 12
+```
+
+Scope.️ 💊💊💊💊💊💊💊💊💊💊💊💊💊💊💊💊💊
+
+```jsx
+1) 💡
+
+var b, t, c;
+
+(() => {
+  let b = 2;
+  let t = 4;
+  var c = 3;
+})();
+
+console.log(b, t, c);
+
+2) 💡
+
+var b, t, c;
+
+if (true) {
+  let b = 2;
+  const t = 4;
+  var c = 3;
+}
+
+console.log(b, t, c);
+
+3) 💡
+
+var a = 7;
+
+function test() {
+  console.log(a);
+}
+
+function func() {
+  var a = 10;
+  test();
+  a = 8;
+}
+
+func();
+
+4) 💡
+
+var a = 7;
+
+function func() {
+  a = 10;
+
+  function test() {
+    a = 5;
+  }
+
+  test();
+}
+
+func();
+
+console.log(a);
+
+5) 💡
+
+var a = 7;
+var b = 10;
+
+function func() {
+  a = 10;
+  var b = 13;
+
+  if (true) {
+    const a = 12;
+    b = 15;
+  }
+}
+
+func();
+
+console.log(a, b);
+
+6) 💡
+
+var group = {
+  person: "Bob"
+};
+
+function func(b) {
+  var newGroup = b;
+
+  newGroup.person = "Bill";
+
+  if (b) {
+    newGroup.person = "John";
+  }
+
+  return newGroup;
+}
+
+var newPerson = func(group).person;
+
+console.log(group.person, newPerson);
+
+7) 💡
+
+var a = 7;
+
+function func(b) {
+  b = 10;
+
+  if (true) {
+    b = 15;
+  }
+
+  return b;
+}
+
+var b = func(a);
+
+console.log(a, b);
+```
+
+Context_This. 💊💊💊💊💊💊💊💊💊💊💊💊💊💊💊💊
+
+```jsx
+💡
+
+var node = document.querySelector('div');
+
+node.addEventListener('click', function() { console.log(this) });
+
+node.addEventListener('click', () => { console.log(this) });
+
+node.click();
+
+
+💡
+
+var a = {
+  b: 1,
+  getContext: function () { console.log(this) }
+};
+
+var b = {
+  b: 2,
+  getContext: a.getContext
+};
+
+console.log( a.getContext() );
+console.log( b.getContext() );
+
+
+
+💡
+
+var a = {
+  b: 1,
+  getContext: function () { console.log(this) }
+};
+
+var b = {
+  b: 2,
+  getContext: a.getContext.bind(this)
+};
+
+var c = {
+  b: 2,
+  getContext: a.getContext.bind(b)
+};
+
+console.log( a.getContext() );
+console.log( b.getContext() );
+console.log( c.getContext() );
+
+
+💡
+
+var a = {
+  b: 1,
+  getContext: function () { console.log(this) }
+};
+
+var d = { prop: 'here' };
+
+var b = a.getContext.call(d);
+var c = a.getContext.apply(d);
+var g = a.getContext.bind(d);
+
+console.log( b, c, g );
+
+
+💡
+
+var a = {
+  b: 1,
+  getContext: () => { console.log(this) }
+};
+
+var b = {
+  b: 2,
+  getContext: a.getContext
+};
+
+console.log( a.getContext() );
+console.log( b.getContext() );
+
+
+💡
+
+var a = {
+  b: 1,
+  getContext: function() {
+    var self = this;
+
+    (() => {
+      console.log(self)
+    })();
+  }
+};
+
+var d = { b: 3 };
+
+d.getThis = a.getContext;
+
+d.getThis();
+```
+
+Logical_operators  💊💊💊💊💊💊💊💊💊💊💊💊💊💊💊💊
+
+```jsx
+💡
+
+const func = () => 3;
+
+const b = "" || 1 || "there";
+
+const c = 1 && 2 && func();
+
+const d = 1 && "" && func();
+
+console.log(b, c, d);
+
+💡
+
+const user = { name: "Bill" };
+
+const func = user => {
+  const currentUser = user || { name: "Bob" };
+
+  const userName = user && user.name;
+
+  console.log(currentUser.name, userName);
+};
+
+func();
+
+💡
+
+const b = null || "there";
+
+const c = {} && 0 && 2;
+
+const d = false && 2 && "here";
+
+console.log(b, c, d);
+```
+
+Loops.  💊💊💊💊💊💊💊💊💊💊💊💊💊💊💊💊💊
+ 
+```jsx
+💡
+
+for (var i = 1; i < 4; i++) {
+  setTimeout(function() {
+    console.log(i);
+  }, 0);
+}
+
+console.log("loop!");
+
+💡
+
+setTimeout(function() {}, 0);
+
+💡
+
+setTimeout(() => {
+  console.log(0);
+}, 3000);
+
+console.log("loop!");
+
+setTimeout(() => {
+  console.log(1);
+}, 1000);
+
+setTimeout(() => {
+  console.log(2);
+}, 2000);
+
+setTimeout(() => {
+  console.log(3);
+}, 0);
+
+console.log("finish!");
+```
+
+Hoisting.   💊💊💊💊💊💊💊💊💊💊💊💊💊💊💊💊💊💊💊
+
+```jsx
+💡
+
+console.log(a);
+console.log(b);
+console.log(func());
+console.log(func1());
+
+var a = "there";
+var b = { h: 2 };
+
+function func() {
+  return 2;
+}
+
+var func1 = function() {
+  return 3;
+};
+
+💡
+
+console.log(a);
+console.log(b);
+
+let a = "there";
+const b = "here";
+
+💡
+
+console.log(a);
+
+a = "there";
+
+var a = "some";
+
+console.log(a);
+```
+
+Functions  💊💊💊💊💊💊💊💊💊💊💊💊💊💊💊💊💊💊
+
+```jsx
+💡
+
+"use strict";
+
+console.log(func1());
+console.log(func2());
+
+function func1() {
+  return "declaration";
+}
+
+const func2 = () => {
+  return "arrow";
+};
+
+💡
+
+const func2 = () => {
+  return "arrow";
+};
+
+console.log(func1());
+console.log(func2());
+
+function func1() {
+  return "declaration";
+}
+
+💡
+
+const createClicker = () => {
+  let clickCount = 0;
+
+  return {
+    get() {
+      return clickCount;
+    },
+    increase() {
+      clickCount += 1;
+    }
+  };
+};
+
+const clicker1 = createClicker();
+
+clicker1.increase();
+clicker1.increase();
+
+console.log(clicker1.get());
+
+// *** function-4 *** //
+
+const createClicker = () => {
+  let clickCount = 0;
+
+  return {
+    get() {
+      return clickCount;
+    },
+    increase() {
+      clickCount += 1;
+    }
+  };
+};
+
+const clicker1 = createClicker();
+const clicker2 = createClicker();
+
+clicker1.increase();
+clicker1.increase();
+
+clicker2.increase();
+
+console.log(clicker1.get(), clicker2.get());
+
+💡
+
+let clickCount = 0;
+
+const createClicker = () => {
+  return {
+    get() {
+      return clickCount;
+    },
+    increase() {
+      clickCount += 1;
+    }
+  };
+};
+
+const clicker1 = createClicker();
+const clicker2 = createClicker();
+
+clicker1.increase();
+clicker1.increase();
+
+clicker2.increase();
+
+console.log(clicker1.get(), clicker2.get());
+```
+
+Equals  💊💊💊💊💊💊💊💊💊💊💊💊💊💊💊💊💊💊💊💊💊💊
+
+```jsx
+💡
+
+const a = false == 0;
+const b = '0' == 0;
+const c = {} == {};
+
+console.log(a, b, c);
+
+💡
+
+const arr = [];
+const arr1 = arr;
+
+const a = false === 0;
+const b = '0' === 0;
+const c = [] === [];
+const d = arr === arr1;
+
+console.log(a, b, c, d);
+
+💡
+
+const func = () => {};
+const func1 = () => {};
+const func2 = func;
+
+const a = func === func1;
+const b = func2 === func;
+const c = func2 === () => {};
+
+console.log(a, b, c);
+```
+
+Data_Types  💊💊💊💊💊💊💊💊💊💊💊💊💊💊💊💊💊💊💊
+
+```jsx
+💡
+
+var a = {
+  g: "here"
+};
+
+var b = a;
+
+a = {
+  h: "there"
+};
+
+console.log(b);
+
+💡
+
+var a = "here";
+var b = a;
+
+a = "there";
+
+console.log(b);
+
+💡
+
+var a = Symbol("here");
+var b = Symbol("here");
+
+console.log(a === b);
+
+💡 Что будет выведено в консоль?
+
+console.log(Number(5));
+console.log(String(5));
+console.log(new Number(5));
+
+💡 Код в какой переменной сработает и не упадет?
+
+function functioName(a, b, c) {
+  var a = arguments.map(item => item);
+
+  var b = Array.from(arguments).slice(item => item);
+
+  var d = arguments.slice(item => item);
+
+  var c = [...arguments].filter(item => item);
+}
+```
+
+Timeout_Interval_Promise  💊💊💊💊💊💊💊💊💊💊💊💊💊💊💊💊💊💊💊
+
+```jsx
+💡
+
+const interval = setInterval(() => console.log("interval"), 2000);
+const timeout = timeout(() => console.log("timeout"), 2000);
+
+//a
+stopIntervals();
+stopTimeouts();
+
+//b
+clearTimeout(timeout);
+clearInterval(interval);
+
+//c
+interval.stop();
+timeout.stop();
+
+//d
+deleteTimeout(timeout);
+deleteInterval(interval);
+
+💡
+
+//a
+Promise.resolve(123)
+  .then(() => {})
+  .then(() => {});
+
+//b
+Promise(123)
+  .then(() => {})
+  .then(() => {});
+
+//c
+new Promise(resolve => resolve(123)).then(() => {}).then(() => {});
+
+//d
+fetch("http://some.url/").then(() => {});
+
+💡
+
+try {
+  fetch("http://some.url/").then(
+    data => {},
+    error => console.log("Request error")
+  );
+} catch (err) {
+  console.log("Try catch error");
+}
+
+💡
+
+Promise.resolve(123)
+  .then(data => {
+    console.log(data);
+    return 245;
+  })
+  .then(data => {
+    console.log(data);
+  })
+  .then(data => {
+    console.log(data);
+  });
+
+💡
+
+const prom1 = Promise.resolve("123");
+
+const prom2 = Promise.resolve("here");
+
+const prom3 = Promise.resolve("some");
+
+Promise.all([prom1, prom2, prom3]).then(data => console.log(data));
+
+💡
+
+const prom1 = Promise.resolve("123");
+
+const prom2 = Promise.reject("error");
+
+const prom3 = Promise.resolve("some");
+
+Promise.all([prom1, prom2, prom3])
+  .then(data => console.log(data))
+  .catch(error => console.log(error));
 ```
