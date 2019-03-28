@@ -8,6 +8,8 @@
 
 ### [Routing](https://github.com/cyberspacedk/JS_POCKET/tree/master/Routing)
 
+### [Middleware](https://github.com/cyberspacedk/JS_POCKET/blob/master/Middleware/readme.md)
+
 ### [Firebase](https://github.com/cyberspacedk/JS_POCKET/blob/master/Firebase/readme.md)
 
 ### [Useful React Redux Tricks](https://github.com/cyberspacedk/JS_POCKET/tree/master/Patterns(React))
