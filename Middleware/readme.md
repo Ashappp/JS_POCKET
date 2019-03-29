@@ -194,11 +194,27 @@ const thunk = ({ dispatch, getState }) => next => action =>
  typeof action === 'function' ? action(dispatch, getState) : next(action);
 
 ```
-Асинхронный FLOW
+⭐️⭐️⭐️ Асинхронный FLOW ⭐️⭐️⭐️
 
-1. создаем Три обычных экшена
+❗️❗️❗️❗️❗️❗️ НЕ ЗЫБЫТЬ ПОДКЛЮЧИТЬ THUNK в store
 
-2. создаем асинхронный экшн, который в себе в зависимости от результат запускает синхронные экшены с информацией о статусе запроса, и экшн с ДАНЫМИ запроса  
+```jsx
+import {createStore, applyMiddleware , compose} from 'redux';
+import thunk from 'redux-thunk';
+import rootReducer from '../Reducers/rootReducer';
+
+const devTools = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
+const store = createStore(rootReducer, devTools(applyMiddleware(thunk)) );
+
+export default store;
+
+```
+
+
+1️⃣ ➡ создаем Три обычных экшена
+
+2️⃣ ➡ создаем асинхронный экшн, который в себе в зависимости от результат запускает синхронные экшены с информацией о статусе запроса, и экшн с ДАНЫМИ запроса  
 
 ```jsx
 // СОЗДАДИМ ЭКШН КОТОРЫЙ ИНФОРМИРУЕТ О НАЧАЛЕ запроса 
@@ -230,11 +246,41 @@ axios.get(query).then(response=> data.data.hits)
 }
  
 ```
+3️⃣ ➡ В редюсере   
 
+```jsx
+const initialState = {
+  items: [],
+  loading: false,
+  error: null,
+}
+const fetchReducer = (state=initialState, {type,payload}){
+  switch(type){
+    case 'FETCH_REQUEST': 
+      return {
+        ...state,
+        loading: true, 
+      };
+    case 'FETCH_RESPONSE': 
+      return {
+        ...state, 
+        items: payload,
+        loading:false,
+      };
+    case 'FETCH_ERROR':
+      return {
+        ...state,
+        loading:false,
+        error: payload,
+      };
+    default: return state
+  }
+}
+```
 
 
 
 
 📌   ⬅️   ➡ ️  ⬆️   ⬇️   ⭐️  📝  🔑  💾  ❗️  ❓  ⭕️  ⛔️  🚫  ❌
 🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶🔶 
-  
+1️⃣  2️⃣  3️⃣  4️⃣  5️⃣  6️⃣  7️⃣  8️⃣  9️⃣  🔟
