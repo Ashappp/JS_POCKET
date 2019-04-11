@@ -105,29 +105,88 @@ mongofiles
 
 Методы
 
-# connect(url, callback)  выполняет подключение к серверу MongoDB
+- connect(url, callback)  выполняет подключение к серверу MongoDB
 url-адрес сервера
 callback - ф-ция которая вызывается при кстановке подключения
 
-# insertOne(document, callback) добаляет Один елемент в коллекциб
-# insertMany(document, callback) добавляет массив елементов в коллекцию 
+- insertOne(document, callback) добаляет Один елемент в коллекциб
+- insertMany(document, callback) добавляет массив елементов в коллекцию 
 document - добавляемый объект
 callback - ф-ция которая выполниится после добавления 
 
-# find() - возвращает данные из коллекции по критериям
+- find() - возвращает данные из коллекции по критериям
 
-# findOne() - возвращает один документ из коллекции по критериям
+- findOne() - возвращает один документ из коллекции по критериям
 
-# updateOne() - обновляет ОДИН документ , который соответствует критерию фильтрации и возырвщает информацию об операции обновления
+- updateOne() - обновляет ОДИН документ , который соответствует критерию фильтрации и возырвщает информацию об операции обновления
 
-# updateMany() - обновляет ВСЕ документы, которые соответствуют критерию фильтрации и возвращает информацию об операции обновления
+- updateMany() - обновляет ВСЕ документы, которые соответствуют критерию фильтрации и возвращает информацию об операции обновления
 
-# findOneAndUpdate() - обновляет один документ, который соответствует критерию фильтрации и возвращает обновленный документ
+- findOneAndUpdate() - обновляет один документ, который соответствует критерию фильтрации и возвращает обновленный документ
 
-# deleteMany() - удаляет все документы , которые соответсвтуют определенному критерию
+- deleteMany() - удаляет все документы , которые соответсвтуют определенному критерию
 
-# deleteOne({name: 'Vasya'}) - удаляет один документ , который соответсвует определенному критерию 
+- deleteOne({name: 'Vasya'}) - удаляет один документ , который соответсвует определенному критерию 
 
-# findOneAndDelete() - получает и удаляет один документ, который соответсвует определенному критерию 
+- findOneAndDelete() - получает и удаляет один документ, который соответсвует определенному критерию 
 
-# drop() - удаляет всю коллекцию 
+- drop() - удаляет всю коллекцию 
+
+## C R U D   F L O W
+```js
+const MongoClient = require('mongodb').MongoClient; 
+
+// идентификатор поделючения к БД
+const uri = "mongodb+srv://Begemoth:010203@cluster-2-fr33w.mongodb.net/test?retryWrites=true";
+
+// создаем подключение
+const client = new MongoClient(uri, { useNewUrlParser: true });
+
+
+
+// подключаемся используя метод CONNECT
+client.connect( async err => { 
+
+// обрабатываем статус подключения
+  (err) ? console.log(err) :  console.log('CONNECTION SUCCESS'); 
+
+// ссылка на базу данных 
+  const db = client.db("Customers");
+// ссылка на коллекцию  
+  const userCollection = db.collection("users");
+
+
+// ------------  C R U D  ------------
+
+// ДОБАВИТЬ ОДИН ---- CREATE
+  userCollection.insertOne({name:'SSY'} ,()=> console.log('CREATE ONE'));
+
+
+// ДОБАВИТЬ МНОЖЕСТВО ---- CREATE
+  userCollection.insertMany([{age: 44, alive: true}, {role:'tank', position: 2}], ()=>console.log('CREATE MANY'));
+
+
+// НАЙТИ ---- READ
+  const all = await userCollection.find().toArray();
+  const one = await userCollection.findOne({name: 'Y'});
+  const concrete = await userCollection.find({role: 'tank'}).toArray(); 
+   
+
+// ОБНОВЛЕНИЕ  ---- UPDATE
+  userCollection.updateOne({name:'Y'}, {$set:{name:'ZZZZ'}});
+  userCollection.updateMany({name:'SSY'}, {$set:{lastname:'ADD-new-prop'}});
+  userCollection.updateMany({name:'SSY'}, {$set:{name:'CHANGED-old-name'}});
+  const updated = await userCollection.findOneAndUpdate({name: 'CHANGED-old-name'},{$set:{lastname:'retOr'}}, {returnOriginal:false});
+   
+
+// УДАЛЕНИЕ  ----  DELETE
+  userCollection.deleteOne({name: "CHANGED-old-name"});
+  userCollection.deleteMany({name: "CHANGED-old-name"});
+  const deleted = await userCollection.findOneAndDelete({name: "SSY"});
+   userCollection.drop();
+
+
+  client.close();
+
+}); 
+```
