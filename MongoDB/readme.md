@@ -1,17 +1,70 @@
 ![pic](http://i.piccy.info/i9/ba321f1c0a31a09020e2a6208ee21ed9/1554789851/162103/1309575/MongoDB_1440x728.jpg)
+
 База с открытым исходным кодом. Хранит данные в BSON фформате все расространенные типы данных. 
 
 Система управления БД состоит НЕ из таблиц в ИЗ коллекий. [ {}, {}]
 Каждая коллекция имеет свое уникальное имя - произвольный индентификатор.
 
-MongoDB Community Server
--качаем базу, опредеяем путь и  ставим галку + Compass
-- console with admin root
+ВАРИАНТ с локальной базой 
 
-1. В командной строке windows переходим в папку где установили Mongo, 
-2. затем заходим в папку bin 
-3. запускаем  оболочку командой mongod
+# Консоль Windows
 
+- качаем базу, опредеяем путь 
+- снимаем галку с Service
+- ставим галку + Compass 
+- создаем папку data/db
+- создаем папку log/mongo.log
+- запускаем консоль от Админа
+- переходим в папку /bin откуда выполяняем
+- C:\MongoDB\bin> mongod --directoryperdb --dbpath C:\MongoDB\data\db --logpath C:\MongoDB\log\mongo.log --logappend --install
+- затем выполняем C:\MongoDB\bin> net start MongoDB
+- после успешного выполнения выролняем C:\MongoDB\bin> mongo
+- получаем успешное подключение
+ 
+
+# Файл package.json
+```json
+{
+  "test_node": "node+mongo",
+  "version": "1.0.0",
+  "scripts":{
+    "start": "nodemon app.js"
+  },
+  "dependencies": {
+    "mongo": "^0.1.0",
+    "mongodb": "^3.2.3",
+    "mongoose": "^5.5.0",
+    "nodemon": "^1.18.11"
+  }
+}
+```
+
+# Файл index.js 
+```jsx
+const mongoose = require('mongoose');
+
+mongoose.Promise = global.Promise;
+
+mongoose.connect('mongodb://localhost/youtube', { useNewUrlParser: true })
+  .then(()=> console.log("START"))
+  .catch(err=> console.log(err))  
+```
+
+Если все сделали правильно , то запустив npm start получаем
+
+```js
+  syscall: 'connect',
+  address: '127.0.0.1',
+  port: 27017 }
+[nodemon] clean exit - waiting for changes before restart
+[nodemon] restarting due to changes...
+[nodemon] starting `node app.js`
+START
+```
+
+::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+  
 Комманды в консоли 
 ```jsx
 
@@ -21,6 +74,7 @@ dropDatabase - удалит базу данных
 createCollection - создаст коллекцию
 
 ```
+
 Администрирование БД
 
 mongo 
@@ -69,3 +123,11 @@ callback - ф-ция которая выполниится после добав
 # updateMany() - обновляет ВСЕ документы, которые соответствуют критерию фильтрации и возвращает информацию об операции обновления
 
 # findOneAndUpdate() - обновляет один документ, который соответствует критерию фильтрации и возвращает обновленный документ
+
+# deleteMany() - удаляет все документы , которые соответсвтуют определенному критерию
+
+# deleteOne({name: 'Vasya'}) - удаляет один документ , который соответсвует определенному критерию 
+
+# findOneAndDelete() - получает и удаляет один документ, который соответсвует определенному критерию 
+
+# drop() - удаляет всю коллекцию 
