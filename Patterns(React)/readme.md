@@ -3,6 +3,195 @@
  
 # ||||||||||||||||||||||||||   P A T T E R N S   |||||||||||||||||||||||||| 
 
+------------- Отправка медиафайла REACT -> NODE ----------------
+
+### REACT
+
+```jsx
+import React , {Component} from 'react'; 
+
+export default class Avatar extends Component{
+
+state={ image: '', }
+
+// обработчик на инпут с типом file
+getUserAvatarHandler = ({target})=>{
+    // записываем данные о загружаемом файле 
+    const file = target.files[0];
+    // записываем в стейт
+    this.setState({image: file}); 
+}
+
+// обработчик на конопку отправки
+sendUserAvatarHandler = ()=>{
+    // получаем из стейта аватар
+    const {image} = this.state; 
+
+    // создаем на базе конструктора FormData объект
+    const formdata = new FormData();
+    // наполняем его методом конструктора append
+    // 1 - параметр значение атрибута name инпута 
+    // 2 - параметр value инпута
+    formdata.append('mediafile', image);  
+
+    // путь для загрузки файла
+    const url = 'http://localhost:7000/upload';
+
+    // посылаем данные на сервер. 
+    fetch(url, {method: 'POST', body: formdata}).then(res=> console.log(res))
+}
+
+render(){  
+    return ( 
+    <div> 
+        <label htmlFor="avatar" 
+        style={{'backgroundColor': '#ccc', 'width': '150px'}}>
+            LOAD IMAGE
+        </label>
+
+        <input  type="file" 
+                name="avatar" 
+                id="avatar" 
+                style={{'display':'none'}} 
+                onChange={this.getUserAvatarHandler}
+        />
+
+        <button onClick={this.sendUserAvatarHandler}>SEND IMAGE</button>
+    </div> 
+    )
+}   
+}
+
+```
+
+### NODE 
+
+```js
+const express = require('express');
+const path = require('path');
+const cors = require('cors');
+const multer = require('multer');
+ 
+const app = express();
+
+// объект настроек для multer
+const storage = multer.diskStorage({
+    destination: "./public/uploads/",
+    filename: function(req, file, cb){
+       cb(null, `image-${Date.now()}${path.extname(file.originalname)}`);
+    }
+ });
+ 
+ const upload = multer({
+    storage: storage,
+    limits:{fileSize: 10000000},
+ });
+
+// middleware
+app.use(cors());
+app.use(express.json()); 
+
+// обрабатываем роут , вызываем upload.single в который передаем значение атрибута name инпута
+app.post("/upload", upload.single("mediafile"), (req, res) => { 
+       res.send(200).json({success: true, message: 'File available on path http://host/upload/filename'});
+    })
+// отдаем картинки. НЕ забыть указывать имя файла
+app.get('/upload', express.static('./public/uploads'));  
+
+app.get('/', (req,res)=>{
+    res.send('WORK')
+})
+ 
+app.listen(7000, ()=> console.log('SERVER START on port 7000'))
+
+```
+
+
+---------------  Асинхронный FLOW ---------------
+
+❗️❗️❗️❗️❗️❗️ НЕ ЗЫБЫТЬ ПОДКЛЮЧИТЬ THUNK в store
+
+```jsx
+import {createStore, applyMiddleware , compose} from 'redux';
+import thunk from 'redux-thunk';
+import rootReducer from '../Reducers/rootReducer';
+
+const devTools = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
+
+const store = createStore(rootReducer, devTools(applyMiddleware(thunk)) );
+
+export default store;
+
+```
+
+
+1️⃣ ➡ создаем Три обычных экшена
+
+2️⃣ ➡ создаем асинхронный экшн, который в себе в зависимости от результат запускает синхронные экшены с информацией о статусе запроса, и экшн с ДАНЫМИ запроса  
+
+```jsx
+// СОЗДАДИМ ЭКШН КОТОРЫЙ ИНФОРМИРУЕТ О НАЧАЛЕ запроса 
+const fetchDataRequest = ()=>({
+  type: 'FETCH_REQUEST',
+})
+ 
+// СОЗДАДИМ ЭКШН КОТОРЫЙ ИНФОРМИРУЕТ О ОШИБКЕ
+const fetchDataError = error=>({
+  type: 'FETCH_ERROR',
+  payload: error,
+}) 
+
+// СОЗДАДИМ ЭКШН КОТОРЫЙ получает данные  
+const fetchDataSuccess = data=> ({
+  type: 'FETCH_RESPONSE',
+  payload: data,
+})
+  
+// асинхронный экшн , передаем параметром URL для запроса 
+export const asyncGalleryAction = query => dispatch => {
+// выстреливаем экшн который сообщает что запрос пошел, можем запустить лоадер
+    dispatch(fetchDataRequest());
+// запрашиваем данные. после получения данных выстреливаем экшн
+axios.get(query).then(response=> data.data.hits)
+                .then( data=> dispatch(fetchDataSuccess(data)))
+                .catch(error=> dispatch(fetchDataError(error)))
+
+}
+ 
+```
+3️⃣ ➡ В редюсере   
+
+```jsx
+const initialState = {
+  items: [],
+  loading: false,
+  error: null,
+}
+const fetchReducer = (state=initialState, {type,payload}){
+  switch(type){
+    case 'FETCH_REQUEST': 
+      return {
+        ...state,
+        loading: true, 
+      };
+    case 'FETCH_RESPONSE': 
+      return {
+        ...state, 
+        items: payload,
+        loading:false,
+      };
+    case 'FETCH_ERROR':
+      return {
+        ...state,
+        loading:false,
+        error: payload,
+      };
+    default: return state
+  }
+}
+```
+
+
 ------------------ Показываем и скрываем Текст ------------------
 
 Иногда нужно показыть к примеру информационный текст и скрыть его 
@@ -123,7 +312,8 @@ const useFetch =(url)=>{
 export default  useFetch;
 ```
 
- ------------------ Формирование полей стейта на основании данных из input и дальнейшая запись в массив в виде елементов {}. ------------------
+ -------- Формирование полей стейта на основании данных из input --------
+ -------- и дальнейшая запись в массив в виде елементов {}.     --------
 
 1. С использованием ХУКа useState
 
