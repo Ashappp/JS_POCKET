@@ -1,165 +1,165 @@
-
-
- 
-# ||||||||||||||||||||||||||   P A T T E R N S   |||||||||||||||||||||||||| 
+# |||||||||||||||||||||||||| P A T T E R N S ||||||||||||||||||||||||||
 
 ------------- Отправка медиафайла REACT -> NODE ----------------
 
 ### REACT
 
 ```jsx
-import React , {Component} from 'react'; 
+import React, { Component } from "react";
 
-export default class Avatar extends Component{
+export default class Avatar extends Component {
+  state = { image: "" };
 
-state={ image: '', }
-
-// обработчик на инпут с типом file
-getUserAvatarHandler = ({target})=>{
-    // записываем данные о загружаемом файле 
+  // обработчик на инпут с типом file
+  getUserAvatarHandler = ({ target }) => {
+    // записываем данные о загружаемом файле
     const file = target.files[0];
     // записываем в стейт
-    this.setState({image: file}); 
-}
+    this.setState({ image: file });
+  };
 
-// обработчик на конопку отправки
-sendUserAvatarHandler = ()=>{
+  // обработчик на конопку отправки
+  sendUserAvatarHandler = () => {
     // получаем из стейта аватар
-    const {image} = this.state; 
+    const { image } = this.state;
 
     // создаем на базе конструктора FormData объект
     const formdata = new FormData();
     // наполняем его методом конструктора append
-    // 1 - параметр значение атрибута name инпута 
+    // 1 - параметр значение атрибута name инпута
     // 2 - параметр value инпута
-    formdata.append('mediafile', image);  
+    formdata.append("mediafile", image);
 
     // путь для загрузки файла
-    const url = 'http://localhost:7000/upload';
+    const url = "http://localhost:7000/upload";
 
-    // посылаем данные на сервер. 
-    fetch(url, {method: 'POST', body: formdata}).then(res=> console.log(res))
-}
+    // посылаем данные на сервер.
+    fetch(url, { method: "POST", body: formdata }).then(res =>
+      console.log(res)
+    );
+  };
 
-render(){  
-    return ( 
-    <div> 
-        <label htmlFor="avatar" 
-        style={{'backgroundColor': '#ccc', 'width': '150px'}}>
-            LOAD IMAGE
+  render() {
+    return (
+      <div>
+        <label
+          htmlFor="avatar"
+          style={{ backgroundColor: "#ccc", width: "150px" }}
+        >
+          LOAD IMAGE
         </label>
 
-        <input  type="file" 
-                name="avatar" 
-                id="avatar" 
-                style={{'display':'none'}} 
-                onChange={this.getUserAvatarHandler}
+        <input
+          type="file"
+          name="avatar"
+          id="avatar"
+          style={{ display: "none" }}
+          onChange={this.getUserAvatarHandler}
         />
 
         <button onClick={this.sendUserAvatarHandler}>SEND IMAGE</button>
-    </div> 
-    )
-}   
+      </div>
+    );
+  }
 }
-
 ```
 
-### NODE 
+### NODE
 
 ```js
-const express = require('express');
-const path = require('path');
-const cors = require('cors');
-const multer = require('multer');
- 
+const express = require("express");
+const path = require("path");
+const cors = require("cors");
+const multer = require("multer");
+
 const app = express();
 
 // объект настроек для multer
 const storage = multer.diskStorage({
-    destination: "./public/uploads/",
-    filename: function(req, file, cb){
-       cb(null, `image-${Date.now()}${path.extname(file.originalname)}`);
-    }
- });
- 
- const upload = multer({
-    storage: storage,
-    limits:{fileSize: 10000000},
- });
+  destination: "./public/uploads/",
+  filename: function(req, file, cb) {
+    cb(null, `image-${Date.now()}${path.extname(file.originalname)}`);
+  }
+});
+
+const upload = multer({
+  storage: storage,
+  limits: { fileSize: 10000000 }
+});
 
 // middleware
 app.use(cors());
-app.use(express.json()); 
+app.use(express.json());
 
 // обрабатываем роут , вызываем upload.single в который передаем значение атрибута name инпута
-app.post("/upload", upload.single("mediafile"), (req, res) => { 
-       res.send(200).json({success: true, message: 'File available on path http://host/upload/filename'});
-    })
+app.post("/upload", upload.single("mediafile"), (req, res) => {
+  res.send(200).json({
+    success: true,
+    message: "File available on path http://host/upload/filename"
+  });
+});
 // отдаем картинки. НЕ забыть указывать имя файла
-app.get('/upload', express.static('./public/uploads'));  
+app.get("/upload", express.static("./public/uploads"));
 
-app.get('/', (req,res)=>{
-    res.send('WORK')
-})
- 
-app.listen(7000, ()=> console.log('SERVER START on port 7000'))
+app.get("/", (req, res) => {
+  res.send("WORK");
+});
 
+app.listen(7000, () => console.log("SERVER START on port 7000"));
 ```
 
-
----------------  Асинхронный FLOW REDUX  ---------------
+--------------- Асинхронный FLOW REDUX ---------------
 
 ❗️❗️❗️❗️❗️❗️ НЕ ЗЫБЫТЬ ПОДКЛЮЧИТЬ THUNK в store
 
 ```jsx
-import {createStore, applyMiddleware , compose} from 'redux';
-import thunk from 'redux-thunk';
-import rootReducer from '../Reducers/rootReducer';
+import { createStore, applyMiddleware, compose } from "redux";
+import thunk from "redux-thunk";
+import rootReducer from "../Reducers/rootReducer";
 
 const devTools = window.__REDUX_DEVTOOLS_EXTENSION_COMPOSE__ || compose;
 
-const store = createStore(rootReducer, devTools(applyMiddleware(thunk)) );
+const store = createStore(rootReducer, devTools(applyMiddleware(thunk)));
 
 export default store;
-
 ```
-
 
 1️⃣ ➡ создаем Три обычных экшена
 
-2️⃣ ➡ создаем асинхронный экшн, который в себе в зависимости от результат запускает синхронные экшены с информацией о статусе запроса, и экшн с ДАНЫМИ запроса  
+2️⃣ ➡ создаем асинхронный экшн, который в себе в зависимости от результат запускает синхронные экшены с информацией о статусе запроса, и экшн с ДАНЫМИ запроса
 
 ```jsx
-// СОЗДАДИМ ЭКШН КОТОРЫЙ ИНФОРМИРУЕТ О НАЧАЛЕ запроса 
-const fetchDataRequest = ()=>({
-  type: 'FETCH_REQUEST',
-})
- 
+// СОЗДАДИМ ЭКШН КОТОРЫЙ ИНФОРМИРУЕТ О НАЧАЛЕ запроса
+const fetchDataRequest = () => ({
+  type: "FETCH_REQUEST"
+});
+
 // СОЗДАДИМ ЭКШН КОТОРЫЙ ИНФОРМИРУЕТ О ОШИБКЕ
-const fetchDataError = error=>({
-  type: 'FETCH_ERROR',
-  payload: error,
-}) 
+const fetchDataError = error => ({
+  type: "FETCH_ERROR",
+  payload: error
+});
 
-// СОЗДАДИМ ЭКШН КОТОРЫЙ получает данные  
-const fetchDataSuccess = data=> ({
-  type: 'FETCH_RESPONSE',
-  payload: data,
-})
-  
-// асинхронный экшн , передаем параметром URL для запроса 
+// СОЗДАДИМ ЭКШН КОТОРЫЙ получает данные
+const fetchDataSuccess = data => ({
+  type: "FETCH_RESPONSE",
+  payload: data
+});
+
+// асинхронный экшн , передаем параметром URL для запроса
 export const asyncGalleryAction = query => dispatch => {
-// выстреливаем экшн который сообщает что запрос пошел, можем запустить лоадер
-    dispatch(fetchDataRequest());
-// запрашиваем данные. после получения данных выстреливаем экшн
-axios.get(query).then(response=> data.data.hits)
-                .then( data=> dispatch(fetchDataSuccess(data)))
-                .catch(error=> dispatch(fetchDataError(error)))
-
-}
- 
+  // выстреливаем экшн который сообщает что запрос пошел, можем запустить лоадер
+  dispatch(fetchDataRequest());
+  // запрашиваем данные. после получения данных выстреливаем экшн
+  axios
+    .get(query)
+    .then(response => data.data.hits)
+    .then(data => dispatch(fetchDataSuccess(data)))
+    .catch(error => dispatch(fetchDataError(error)));
+};
 ```
-3️⃣ ➡ В редюсере   
+
+3️⃣ ➡ В редюсере
 
 ```jsx
 const initialState = {
@@ -169,14 +169,14 @@ const initialState = {
 }
 const fetchReducer = (state=initialState, {type,payload}){
   switch(type){
-    case 'FETCH_REQUEST': 
+    case 'FETCH_REQUEST':
       return {
         ...state,
-        loading: true, 
+        loading: true,
       };
-    case 'FETCH_RESPONSE': 
+    case 'FETCH_RESPONSE':
       return {
-        ...state, 
+        ...state,
         items: payload,
         loading:false,
       };
@@ -191,76 +191,100 @@ const fetchReducer = (state=initialState, {type,payload}){
 }
 ```
 
+-------------------- Запрос с токеном REDUX -------------------
+
+```js
+/* eslint-disable */
+
+const getTasks = data => ({
+  type: "ONLY_TASKS",
+  payload: data
+});
+
+const asyncTasksAction = () => dispatch => {
+  fetch("http://192.168.90.102:8000/api/goal/5cbf2575af7aaf324c99c1c4", {
+    method: "GET",
+    headers: {
+      "Content-Type": "application/json",
+      Authorization:
+        "Bearer " +
+        "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJ1c2VyIjoiNWNiZjI1NzVhZjdhYWYzMjRjOTljMWM0IiwiZW1haWwiOiJwYXBleWVAc2FpbG9yLm1hbiIsImlhdCI6MTU1NjAzMDg4N30.2DcWr_N5inejEhXFaVmNde8k4ZbuyezclDzzhjjH0Kk"
+    }
+  })
+    .then(response => response.json())
+    .then(data => dispatch(getTasks(data)))
+    .catch(error => console.log(error));
+};
+
+export default asyncTasksAction;
+```
 
 ------------------ Показываем и скрываем Текст ------------------
 
-Иногда нужно показыть к примеру информационный текст и скрыть его 
+Иногда нужно показыть к примеру информационный текст и скрыть его
 
 ```jsx
-// Создаем функцию которая записываем в  стейт текст 
+// Создаем функцию которая записываем в  стейт текст
 
-printMessage = (message)=> {
+printMessage = message => {
+  this.setState({
+    formSuccess: message // Записываем текст
+  });
 
-        this.setState({
-            formSuccess: message // Записываем текст
-        });
-
-        setTimeout(()=>{         // Через время убираем, передав пустую строку
-            this.setState({
-                formSuccess: ''
-            });
-        }, 2000)
-    }
-
+  setTimeout(() => {
+    // Через время убираем, передав пустую строку
+    this.setState({
+      formSuccess: ""
+    });
+  }, 2000);
+};
 ```
-
 
 ------------------ Паттерн работы с постами на примере REDUX Reducer ------------------
 
 На примере КОЛЛЕКЦИИ []
+
 ```jsx
-const  arrayReducer = (state = [], { type, payload }) => {
- switch (type) {
+const arrayReducer = (state = [], { type, payload }) => {
+  switch (type) {
+    case "FETCH_POSTS":
+      return payload;
 
-  case 'FETCH_POSTS':
-    return payload;
+    case "ADD_POST":
+      return [...state, payload];
 
-  case 'ADD_POST':
-    return [...state, payload];
+    case "UPDATE_POST":
+      return state.map(post => (post.id === payload.id ? payload : post));
 
-  case 'UPDATE_POST':
-    return state.map(post => (post.id === payload.id ? payload : post));
+    case "DELETE_POST":
+      return state.filter(post => post.id !== payload.id);
 
-  case 'DELETE_POST':
-    return state.filter(post => post.id !== payload.id);
-
-  default:
-    return state;
- }
-}
+    default:
+      return state;
+  }
+};
 ```
+
 На примере СЛОВАРЯ {}
 
 ```jsx
-const  objectReducer = (state = {}, { type, payload }) => {
-switch (type) {
+const objectReducer = (state = {}, { type, payload }) => {
+  switch (type) {
+    case "FETCH_POSTS":
+      return payload;
+    // Если такого поста нет , то он добавится, а если есть ТО ПЕРЕТРЕТ предыдущий
+    case "ADD_POST":
+    case "UPDATE_POST":
+      return { ...state, [payload.id]: payload };
+    // получим в переменную rest остаток объекта БЕЗ ненужного елемента
+    case "DELETE_POST":
+      const { [payload.id]: _, ...rest } = state;
+      return rest;
 
-  case 'FETCH_POSTS':
-    return payload;
-// Если такого поста нет , то он добавится, а если есть ТО ПЕРЕТРЕТ предыдущий
- case 'ADD_POST':
- case 'UPDATE_POST':
-   return { ...state, [payload.id]: payload };
-// получим в переменную rest остаток объекта БЕЗ ненужного елемента
- case 'DELETE_POST':  
- const { [payload.id]: _, ...rest } = state;
-    return rest; 
- 
- default:
-    return state;
- }
-}
-
+    default:
+      return state;
+  }
+};
 ```
 
 ------------------ Фильтр объекта без мутации ------------------
@@ -270,11 +294,10 @@ switch (type) {
 ```jsx
 // Используем демтруктуризацию объекта oldObject. Например нам не нужно поле city, мы деструктуризируем его в переменную _ которую нигде не будем использовать
 
-
-const {city: _, ...newObject} = oldObject;
+const { city: _, ...newObject } = oldObject;
 // в константу newObject попали все поля объекта oldObject
-
 ```
+
 ------------------ Initial state from Localstorage в REDUX ------------------
 
 В случае если необходимо чтобы в стейт попадали данные из стореджа, и не танцевать с бубном, используем следующий прием
@@ -283,7 +306,7 @@ const {city: _, ...newObject} = oldObject;
 // получаем сторедж ЕСЛИ он есть или пустой объект
 const initialState = JSON.parse(localStorage.getItem('key')) || {};
 
-// инициализируем стейт НЕ с данными из стореджа 
+// инициализируем стейт НЕ с данными из стореджа
 const someReducer = (state=initialState, action ){
   ...other code
 }
@@ -292,45 +315,45 @@ const someReducer = (state=initialState, action ){
 ------------------ Кастомный REACT ХУК fetch запроса ------------------
 
 ```jsx
-import {useEffect, useState} from 'react'; 
+import { useEffect, useState } from "react";
 
-const useFetch =(url)=>{ 
+const useFetch = url => {
   // стейт пустой массив
-  const [data, setData]= useState([]);
+  const [data, setData] = useState([]);
 
-// используем хук useEffect
-  useEffect( ()=> {
-// запрашиваемся по URL
+  // используем хук useEffect
+  useEffect(() => {
+    // запрашиваемся по URL
     fetch(url)
       .then(resp => resp.json())
-// используем хук useState, его вторую часть (функцию аналог setstate) и записываем в стейт данные запроса
-      .then(data=> setData(data))
-  } , []);
+      // используем хук useState, его вторую часть (функцию аналог setstate) и записываем в стейт данные запроса
+      .then(data => setData(data));
+  }, []);
 
   return data;
-}
-export default  useFetch;
+};
+export default useFetch;
 ```
 
- -------- Формирование полей стейта на основании данных из input --------
- -------- и дальнейшая запись в массив в виде елементов {}.     --------
+-------- Формирование полей стейта на основании данных из input --------
+-------- и дальнейшая запись в массив в виде елементов {}. --------
 
 1. С использованием ХУКа useState
 
 ```jsx
-// В родительском компоненте есть массив с данными , нужно собрать данные из форм и записать объектом подобной структуры в массив 
+// В родительском компоненте есть массив с данными , нужно собрать данные из форм и записать объектом подобной структуры в массив
  const userData = [ { id: 1,  name: "Homer", username: "floppydiskette" }, и так далее];
 // user будет пробрасываться в дочернем компоненте
 const addUser = user => {
-  // добавим новое полe id 
+  // добавим новое полe id
   user.id = Date.now();
   // запишем в основной массив новыей елемент , с данными собранными с инпутов
   setUsers([...users, user]);
 }
 
 // ДОЧЕРНИЙ КОМПОНЕНТ С ФОРМОЙ
- 
-// сформировали нужный объект и сделали его по умолчанию 
+
+// сформировали нужный объект и сделали его по умолчанию
   const initialState ={
     name: '',
     username: '',
@@ -345,26 +368,26 @@ const addUser = user => {
     setUser ({...user, [name]:value});
   }
 
-  const formSubmit = e => { 
-    e.preventDefault(); 
+  const formSubmit = e => {
+    e.preventDefault();
 // если поля НЕ пустые то вызываем фунцию записи add проброшенную из РОДИТЕЛЬСКОГО компонента
-// add это функция, которая записывает в основной массив собранные данные из инпутов 
-    user.name && user.username && add(user) ; 
+// add это функция, которая записывает в основной массив собранные данные из инпутов
+    user.name && user.username && add(user) ;
 // очишаем поля инпутов
     setUser(initialState);
-  } 
+  }
 }
 // форма с двумя инпутами
   return (
-    <form onSubmit={formSubmit}>  
-      <input type="text" name="name" value={user.name} onChange={inputChange}/> 
-      <input type="text" name="username" value={user.username} onChange={inputChange}/> 
+    <form onSubmit={formSubmit}>
+      <input type="text" name="name" value={user.name} onChange={inputChange}/>
+      <input type="text" name="username" value={user.username} onChange={inputChange}/>
     </form>
   );
-  
+
 
 ```
- 
+
 ------------------ Динамическая стилизация ------------------
 
 В зависимости от условия, например клик на что-то или изменение состояния, нужно поменять стили для компонента, стили можно задавать инлайн или в className
@@ -374,12 +397,13 @@ const addUser = user => {
 создадим массив например сразу после метода render или на самом верху, до объявления компонентав который будем пушить при натуплении определенных условий елементы-строки который будут назначены как классы в атрибуте className
 
 матод с массивом
+
 ```jsx
 const css = [];
 
 // Произошли какие то события и нам нужно поменять класс
- if ( this.state.persons.length <= 2 ) css.push( 'red' ); // css = ['red'] 
- if ( this.state.persons.length <= 1 ) css.push( 'bold' ); // css = ['red', 'bold']  
+ if ( this.state.persons.length <= 2 ) css.push( 'red' ); // css = ['red']
+ if ( this.state.persons.length <= 1 ) css.push( 'bold' ); // css = ['red', 'bold']
 
 // в атрибуте className компонента разбиваем массив в строку по разделителю
 
@@ -388,9 +412,10 @@ const css = [];
 // получаем <div className="red bold"
 ```
 
-2. Inline style  ------------------
+2. Inline style ------------------
 
 создаем объект со стилями или просто пустой объект
+
 ```jsx
 const style = {
       backgroundColor: 'green',
@@ -398,36 +423,35 @@ const style = {
       font: 'inherit',
       border: '1px solid blue',
       padding: '8px',
-      cursor: 'pointer', 
+      cursor: 'pointer',
     };
-    
+
 const css ={}
 
 // Произошли какие то события и нам нужно поменять класс
 
-// добавляем поле в пустой объект 
- if ( this.state.isActive) css.color = '#000' //  color : #000 
+// добавляем поле в пустой объект
+ if ( this.state.isActive) css.color = '#000' //  color : #000
 
-// или обновляем существующий объект 
- if ( this.state.persons.length <= 1 ) style.padding = '10px 5px'; // padding : 10px 5px  
+// или обновляем существующий объект
+ if ( this.state.persons.length <= 1 ) style.padding = '10px 5px'; // padding : 10px 5px
 
 // В компионенте значением атрибута/props style размещаем нужный объект сто стилями
 
 <p  style={css}> Some text </>
 <span style ={style}> Some content </span>
 
-// можно назначить эти объекты разным компонетам в качестве стилей и при наступлении каких то событий менять значение полей объекта, таким образом измення сразу стили у всех компонентов , которым прописали это объект. Аналог css переменных 
+// можно назначить эти объекты разным компонетам в качестве стилей и при наступлении каких то событий менять значение полей объекта, таким образом измення сразу стили у всех компонентов , которым прописали это объект. Аналог css переменных
 
 ```
-3. Стилизация spread props  ------------------
 
-Есть компонент <Button > в котором лежит span с пропсами style в который при наступлении каких то условий мы прокинем дополнительный стили c помощью спреда инлайновых стлей. 
+3. Стилизация spread props ------------------
 
-
+Есть компонент <Button > в котором лежит span с пропсами style в который при наступлении каких то условий мы прокинем дополнительный стили c помощью спреда инлайновых стлей.
 
 ```jsx
 // Передающий компонент. Передаем пропсом add объект со стилями
-<div> 
+<div>
   <Button add={{fontSize: '12px', display: 'inline-block' }}/>
 </div>
 
@@ -435,20 +459,18 @@ const css ={}
 <span style={{
   color: '#fff',
   border:'1px solid #ccc',
-  ...props.add 
+  ...props.add
 }}> </span>
 
 ```
 
-
-
 ------------------ ASYNC / AWAIT / second argument setState ------------------
 
-Чтобы гарантировано получать изменные данные из стейта можно пойти несколькими путями. 
-Так как setState это асинхронная операция то мы не можем гарантировтаь что стейт обновится сразу 
+Чтобы гарантировано получать изменные данные из стейта можно пойти несколькими путями.
+Так как setState это асинхронная операция то мы не можем гарантировтаь что стейт обновится сразу
 Поэтому есть несколько приемов
 
-1. Передавать вторым аргументом метода setState, функцию с тем что нам нужно  
+1. Передавать вторым аргументом метода setState, функцию с тем что нам нужно
 
 ```jsx
 this.setState({ data: value} , ()=> do something)
@@ -458,38 +480,37 @@ this.setState({ data: value} , ()=> do something)
 
 ```jsx
 //  Объявили функцию как асинхронную
-  handleCurrentPage = async ({target})=>{ 
-//  ждем пока выполнится 
+handleCurrentPage = async ({ target }) => {
+  //  ждем пока выполнится
   await this.setState({
     currentPage: target.value,
-    error: false,
-  })
-// используем изменненные АКТУАЛЬНЫЕ данные в стейте. 
-  if(this.state.currentPage === '' || this.state.currentPage < 1) return; 
-
-}
-
+    error: false
+  });
+  // используем изменненные АКТУАЛЬНЫЕ данные в стейте.
+  if (this.state.currentPage === "" || this.state.currentPage < 1) return;
+};
 ```
 
------------------- Кастомный фильтр не изменяя стейт  ------------------
+------------------ Кастомный фильтр не изменяя стейт ------------------
 
-Если нам нужно отрисовать данные из стейта по разным условиям, на примере приложения TODO список завершенный текущих и всех дел, то если брать данные из стейта наприямуя и применять к ним фильтр то массив который в стейте мутируется и в дальнейшем мы не сможем отображаать корректные данные. 
-В компоненте который будет отображать данные из стейта по разным фильтрам, мы делаем следующее, берем массив из стейта и копируем его в переменную, дальше эту переменную отдаем как props в компонент и делаем там все что нужно. 
+Если нам нужно отрисовать данные из стейта по разным условиям, на примере приложения TODO список завершенный текущих и всех дел, то если брать данные из стейта наприямуя и применять к ним фильтр то массив который в стейте мутируется и в дальнейшем мы не сможем отображаать корректные данные.
+В компоненте который будет отображать данные из стейта по разным фильтрам, мы делаем следующее, берем массив из стейта и копируем его в переменную, дальше эту переменную отдаем как props в компонент и делаем там все что нужно.
 
-Также можно через создание функции с фильтрацией. 
+Также можно через создание функции с фильтрацией.
 
 ```jsx
 // фукция которая принимает массив и фильтр
 const filterItem = (arr, filter) => {
   // проверяет, если переданный аргумент буль , то фильтруем по нему, иначе возвращает сам елемент
 	return arr.filter(elem=> typeof filter == 'boolean' ? elem.complete == filter : elem)
-} 
-Далее в теле компонента, когда все props прокинуты ( { массив , фильтр} ) мы вызываем созданную функцию и передаем туда данные 
+}
+Далее в теле компонента, когда все props прокинуты ( { массив , фильтр} ) мы вызываем созданную функцию и передаем туда данные
 
 filterItem(массив, фильтр ) // На этом этапе у нас отфильтрованный массив по условия
 .map(elem => .....) // теперь на основании отфильтрованного массива работаем с коллекцией
 
 ```
+
 ------------------ Добавление класса css по условию ------------------
 
 ```jsx
@@ -497,14 +518,15 @@ filterItem(массив, фильтр ) // На этом этапе у нас о
 // создадим переменную которая хранит в себе класс или классы, которые мы можем применять к елементам
       let classCss = 'todo-list-item-label';
 
-// если в переменной которая хранит в себе значение поля done будет true , то добавим в переменную класс 
-       (флаг или условие) ? classCss += ' done' : classCss;  
+// если в переменной которая хранит в себе значение поля done будет true , то добавим в переменную класс
+       (флаг или условие) ? classCss += ' done' : classCss;
 
 // затем в return в теге прописываем в className={classCss}
 <span className={classCss}>
 
 ```
-------------------  Запись в localstorage данных которые пришли от сервера ------------------
+
+------------------ Запись в localstorage данных которые пришли от сервера ------------------
 
 - делаем запрос fetch/axios затем в then где есть доступ к объекту с данными , вторым параметром функции setState передаем команду записи в локаолстредж
 
@@ -524,7 +546,7 @@ axios.get(url).then(response=>response.data)
 
 const getResource = async (url) => {
   const result = await fetch(url);
-  return await result.json(); 
+  return await result.json();
 }
 
 getResource('some url').then(data => do something)
@@ -570,7 +592,7 @@ return (
 Все что мы пишем в теле компонента, между открывающим и закрывающим тегом будет доступно через
 
 ```jsx
-this.props.children
+this.props.children;
 ```
 
 Там можно передавать любые данные
@@ -753,11 +775,11 @@ const NoteList = ({notes, removeNote})=> {
 //----------- ЧЕТВЕРТЫЙ файл. КОМПОНЕНТ ПОИСК ---------------
 
 // деструктуризируем проброшенный массив заметок notes
-const Search = ({filter, filterNote})=> {
-   return ( 
-// значение инпута это значение поля filter из App 
-// метод компонента Арр filterNote, который меняет поле filter state 
-      <input type="text" value={filter} onChange={filterNote}/>  
-   )
-}
+const Search = ({ filter, filterNote }) => {
+  return (
+    // значение инпута это значение поля filter из App
+    // метод компонента Арр filterNote, который меняет поле filter state
+    <input type="text" value={filter} onChange={filterNote} />
+  );
+};
 ```
