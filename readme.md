@@ -1,19 +1,13 @@
 ![Pic](http://i.piccy.info/i9/9c80cddefbb8bd0e577843ad9e40491b/1546701166/10964/1293035/js.png) 
 ----------------
 ## Конспект по JAVASCRIPT 
-
-### [React](https://github.com/cyberspacedk/JS_POCKET/tree/master/REACT)
-
+ 
 ### [Styled Component](https://github.com/cyberspacedk/JS_POCKET/tree/master/Styled%20component)
 
 ### [Redux](https://github.com/cyberspacedk/JS_POCKET/tree/master/REDUX)
-
-### [Routing](https://github.com/cyberspacedk/JS_POCKET/tree/master/Routing)
-
+  
 ### [Middleware](https://github.com/cyberspacedk/JS_POCKET/blob/master/Middleware/readme.md)
-
-### [Back End](https://github.com/cyberspacedk/JS_POCKET/tree/master/BackEnd)
-
+ 
 ### [Firebase](https://github.com/cyberspacedk/JS_POCKET/blob/master/Firebase/readme.md)
 
 ### [MongoDB](https://github.com/cyberspacedk/JS_POCKET/blob/master/MongoDB/readme.md)
