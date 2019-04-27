@@ -1,3 +1,5 @@
+![pic](http://i.piccy.info/i9/ec5c91dae17c0a0970b9e708b5255c8e/1556390885/40738/1314369/1_6E_EG6HczqSSsEQFgFlG_A.jpg)
+
 Для использования ставим npm пакет
 
 ```js
