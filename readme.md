@@ -4,6 +4,8 @@
 
 ### [React](https://github.com/cyberspacedk/JS_POCKET/tree/master/REACT)
 
+### [Styled Component](https://github.com/cyberspacedk/JS_POCKET/tree/master/Styled%20component)
+
 ### [Redux](https://github.com/cyberspacedk/JS_POCKET/tree/master/REDUX)
 
 ### [Routing](https://github.com/cyberspacedk/JS_POCKET/tree/master/Routing)
