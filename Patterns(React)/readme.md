@@ -1,5 +1,36 @@
 # |||||||||||||||||||||||||| P A T T E R N S ||||||||||||||||||||||||||
 
+------------- Fetch с помощью хуков ----------------
+
+```jsx
+import React, { useState, useEffect } from "react";
+import axios from "axios";
+
+function App() {
+  const [data, setData] = useState({ hits: [] });
+
+  useEffect(async () => {
+    const result = await axios(
+      "http://hn.algolia.com/api/v1/search?query=react"
+    );
+
+    setData(result.data);
+  }, []);
+
+  return (
+    <ul>
+      {data.hits.map(item => (
+        <li key={item.objectID}>
+          <a href={item.url}>{item.title}</a>
+        </li>
+      ))}
+    </ul>
+  );
+}
+
+export default App;
+```
+
 ------------- Отправка медиафайла REACT -> NODE ----------------
 
 ### REACT
@@ -351,7 +382,7 @@ const addUser = user => {
   setUsers([...users, user]);
 }
 
-// ДОЧЕРНИЙ КОМПОНЕНТ С ФОРМОЙ
+ДОЧЕРНИЙ КОМПОНЕНТ С ФОРМОЙ
 
 // сформировали нужный объект и сделали его по умолчанию
   const initialState ={
