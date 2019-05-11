@@ -1,6 +1,12 @@
 - [Массивы](#Массивы)
+
 - [Задачи на приемы работы с циклами](#Задачи_на_приемы_работы_с_циклами)
+
 - [Цикл в цикле](#Цикл_в_цикле)
+
+- [Объекты](#Объекты)
+
+- [Функции](#Функции)
 
 ---
 
@@ -56,15 +62,21 @@ let [var1, var2, var3,var4] = ["Sun", 55, "Moon", 100, "Winter"];
 const numbers = [ [1, 8, "House"] , ["Wind", 887, "Left"] , [78,55,97]];
 нужно записать все эти значения в один массив
 
+ 1
 const flatArr=[];
-
 for( let i=0, max=numbers.length; i<max; i++){
-
        for( let j = 0, max = numbers[i].length; j<max; j++){
            flatArr.push(numbers[i][j]);
        }
-
 }
+ 2.
+const flatArr = numbers.flat();
+
+ 3.
+const newarr = [];
+numbers.forEach((elem, idx, arr)=> {
+    elem.forEach(elem=> newarr.push(elem))
+})
 ```
 
 - Есть массив, нужно взять из него строку и поработать с ней
@@ -188,11 +200,17 @@ let [firstElem, secondElem, ...restElem] = customArr;
 ```js
 const maxMin = [12, 15, 25, 37, 41];
 
-ES6
+ 1. ES6
 let min= Math.min(...maxMin);
 let max=Math.max(...maxMin);
 
-Второй способ
+ 2.
+let min=maxMin[0];
+let max = maxMin[0];
+maxMin.forEach(el=> el < min ? min=el : min);
+maxMin.forEach(el=> el > max ? max=el : max);
+
+ 3.
 for (var i = 0; i < maxMin.length; i++) {
     if(maxMin[i] < maxMin[0]){
     maxMin[0] = maxMin[i];
@@ -310,10 +328,14 @@ if (userChoice==="ножницы") {
 Разбиваем строку посимвольно  и превращаем ее в массив с помощью split('')
 потом применяем к нему метод reverse()
 собираем все символы в строку с помощью join('')
-
+ 1
 let userInput = prompt("Дай слово");
 let poly = userInput.split('').reverse().join('');
 (userInput) === poly ? alert("Это ПОЛИНДРОМ") : alert("Это не он");
+
+ 2 the same but shorter
+const isPoly = (word) => word === word.split('').reverse().join('');
+
 ```
 
 - Создание двумерного массива
@@ -420,6 +442,10 @@ for (let elem of arr){
 Если результирующий массив НЕ содержит елемента оригинального массива значит этот елемент был удален
 	if(!result.includes(elem)) deletedItems.push(elem);
 }
+
+ 2.
+const removed = arrr.filter(el => !result.includes(el) );
+
 ```
 
 - разницу значений двух масивов
@@ -459,12 +485,15 @@ let arr = [1,2,5,10,12,5,3,2,8,3];
 let unique = [];
 
 for(let elem of arr){
+ зададим счетик, который установим в 0
 let counter = 0;
 
+ сравним каждый елемент со всеми остальными
 	for(let innerelem of arr){
+     если произойдет совпадение то увеличим на 1, при повторном совпадении эта цифра уже не буде равно 1
 			if(elem === innerelem) counter++;
 	}
-
+ на выходе из первого прохода смотрим на counter, если там 1 значит елемент совпал 1 раз и он уникален
 	if(counter === 1){
 	unique.push(elem);
 	}
@@ -746,6 +775,12 @@ let mas = [
 ];
 
 console.log(mas.reverse());
+
+2;
+const reversed = [];
+for (let i = mas.length - 1; i >= 0; i--) {
+  reversed.push(mas[i]);
+}
 ```
 
 ## Задачи*на*приемы*работы*с_циклами
@@ -793,6 +828,7 @@ let c = [];
 let max = [];
 let min = [];
 
+ 1
 if (a.length > b.length) {
 	max = a;
 	min = b
@@ -809,7 +845,21 @@ for (let i = 0; i < max.length; i++){
 Новый елемент массива будет равен сумме елементов массивов a и b
 	c[i] = a[i]+b[i];
 };
-console.log(c)
+
+ 2
+
+a.length > b.length ? max=[...a] : min=[...a];
+a.length < b.length ? max=[...b] : min=[...b];
+
+max.forEach((el, idx, arr)=> {
+    if(min[idx] === undefined) min[idx]=0;
+    return c.push(el+min[idx]);
+})
+c = c.reduce((acc,el)=> acc + el);
+
+ 3
+let c =  a.reduce((a,e)=>a+e) + b.reduce((a,e)=>a+e);
+
 ```
 
 - Дан массив mas. Выведите его в формате индекс элемента — значение (через три дефиса). Каждый элемент с новой строки.
@@ -857,6 +907,13 @@ for (let i = 0; i < a.length - 1; i += 1) {
   b[i] = a[i + 1] - a[i];
   console.log(b);
 }
+
+2;
+a.forEach((elem, idx, arr) => {
+  if (arr[idx + 1]) {
+    b[idx] = arr[idx + 1] - arr[idx];
+  }
+});
 ```
 
 - Удалить повторяющиеся элементы массива - верните массив, в котором удалены повторяющиеся элементы из массива arr (игнорируйте чувствительность к регистру).
@@ -875,12 +932,15 @@ let a = [
 ];
 let b = [];
 
-for (let i = 0; i < a.length; i += 1) {
-  if (a[i] == a[i + 1]) {
-    a.splice(i, 1);
-    b.push(a[i]);
-  }
-}
+2;
+a.forEach((el, idx, arr) => {
+  a.forEach((elem, idx, arr) => {
+    if (el === arr[idx + 1]) {
+      b.push(el);
+      a.splice(idx, 1);
+    }
+  });
+});
 ```
 
 - Массив указанной длины - напишите скрипт который генерирует массив заданной длины 4, заполненный целыми числами, где каждое число больше предыдущего на единицу.
@@ -900,6 +960,7 @@ console.log(a);
 ```js
 let a = [2, 3, 4, 5, 6, 4, 77, 32, 4, 6, 19, 30, 8, 44];
 let sum = 0;
+let counter = 0;
 
 for (let i = 0; i < a.length; i++) {
   sum += a[i];
@@ -910,6 +971,14 @@ for (let i = 0; i < a.length; i++) {
     break;
   }
 }
+
+2;
+a.forEach((elem, idx, arr) => {
+  if (sum < 10) {
+    sum += elem;
+    counter++;
+  }
+});
 ```
 
 - Дан массив с числами. Не используя метода reverse переверните его элементы в обратном порядке.
@@ -982,6 +1051,10 @@ console.log(arr);
 let mass = [[1, 2, 3], [4, 5], [6]];
 let accum = 0;
 
+1;
+mass.forEach(elem => (accum += elem.reduce((acc, el) => acc + el)));
+
+2;
 for (let i = 0; i < mass.length; i++) {
   for (let j = 0; j < mass[i].length; j++) {
     accum = accum + mass[i][j];
@@ -1368,3 +1441,764 @@ return newArr;
 
 destroyer([1, 2, 3, 1, 2, 3], 2, 3);
 ```
+
+# ||||||||||||||||||||||||||||||||||||||||||||||||
+
+# Объекты
+
+```js
+ 1. Напишите программу на JavaScript, чтобы получить список свойств объекта JavaScript.
+
+ Пример объекта :
+ var student = {
+ name: "David Rayy",
+ sclass: "VI",
+ rollno: 12};
+ Пример вывода : name, sclass, rollno
+
+
+ const person = {
+     name: 'Peter',
+     isActive: true,
+     gender: 'M'
+ }
+ let arr = Object.keys(person);
+ console.log(arr);
+
+:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+ 2. Напишите программу на JavaScript для удаления свойства rollno из следующего объекта.
+ Также напечатайте объект до или после удаления свойства.
+
+ const student = {
+ name: "David Rayy",
+ sclass: "VI",
+ rollno: 12,
+ };
+
+ delete student.rollno;
+
+
+:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+ 3. Напишите программу JavaScript, чтобы получить длину объекта JavaScript. Перейти к редактору.
+
+
+ var student = {
+ name: "David Rayy",
+ sclass: "VI",
+ rollno: 12,
+ };
+
+ let arr = Object.keys(student).length;
+
+:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+ 4. Напишите программу на JavaScript для отображения статуса чтения
+ (т.е. отображения названия книги, имени автора и статуса чтения) следующих книг.
+
+   const library = [
+    {
+        author: 'Bill',
+        title: 'Book Title',
+        readStatus:  false,
+    },
+    {
+        author: 'Sam',
+        title: 'Book Title 2',
+        readStatus:  true,
+    },
+    {
+        author: 'Alex',
+        title: 'Title 3',
+        readStatus:  true,
+    },
+ ];
+
+ function showBookInfo(arr){
+     for(let elem of arr){
+         console.log("-------------------------------");
+
+         for(let key in elem){
+             console.log(` ${key}  :  ${elem[key]}`);
+         }
+         console.log("-------------------------------");
+     }
+ }
+ showBookInfo(library)
+:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+ 5. Напишите программу на JavaScript, чтобы получить объем цилиндра с четырьмя десятичными разрядами, используя классы объектов.
+ Объем цилиндра : V = πr 2 h,
+ где r - радиус, а h - высота цилиндра.
+
+ const volume = {
+     pi: 3.14,
+     r: 30,
+     h: 55,
+     getvolume(){
+         return (this.pi * this.r)*(2*this.h);
+     }
+ }
+ console.log(volume.getvolume());
+
+:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+ 6. Напишите алгоритм пузырьковой сортировки в JavaScript.
+ Примечание. Пузырьковая сортировка - это простой алгоритм сортировки,
+ который работает путем многократного пошагового перемещения по списку, который нужно отсортировать.
+ Пример данных: [6,4,0, 3, -2,1]
+ Ожидаемый результат: [-2, 0 , 1, 3, 4, 6]
+
+
+function bubbleSort(arr) {
+
+    for (let i = 0, endI = arr.length - 1; i < endI; i++) {
+
+        for (let j = 0, endJ = endI - i; j < endJ; j++) {
+
+            if (arr[j] > arr[j + 1]) {
+
+                let swap = arr[j];
+
+                arr[j] = arr[j + 1];
+
+                arr[j + 1] = swap;
+
+            }
+        }
+    }
+
+    return arr;
+}
+
+
+console.log(bubbleSort([6,4,0, 3, -2,1]));
+
+:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+ 7. Напишите программу на JavaScript, которая возвращает подмножество строки. Перейти к редактору.
+ Пример данных: собака
+ Ожидаемый результат: ["d", "do", "dog", "o", "og", "g"]
+
+
+
+:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+ 8. Напишите программу на JavaScript для создания часов.
+ Примечание: вывод будет приходить каждую секунду.
+ Ожидаемый вывод на консоль:
+ "14:37:42"
+ "14:37:43"
+ "14:37:44"
+ "14:37:45"
+ "14:37:46"
+ "14:37:47"
+
+:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+ 9. Напишите программу на JavaScript для расчета площади и периметра круга. Перейти к редактору
+ Примечание. Создайте два метода для расчета площади и периметра. Радиус круга будет предоставлен пользователем.
+
+:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+ 10. Напишите программу JavaScript для сортировки массива объектов JavaScript. Зайдите в редактор
+ Sample Object:
+
+ библиотека var = [
+    {
+        название: «Дорога впереди»,
+        автор: «Билл Гейтс»,
+        ID библиотеки: 1254
+    },
+    {
+        название: «Уолтер Исааксон»,
+        автор: «Стив Джобс»,
+        ID библиотеки: 4264
+    },
+    {
+        title: «Сойка-пересмешница: последняя книга Голодных игр»,
+        автор: «Сюзанна Коллинз»,
+        ID библиотеки: 3245
+    }];
+ Ожидаемый результат:
+
+ [[Объект Object] {
+   автор: "Уолтер Исааксон",
+   ID библиотеки: 4264,
+   название: "Стив Джобс"
+ }, [Объект Object] {
+   автор: "Сюзанна Коллинз",
+   ID библиотеки: 3245,
+   title: «Сойка-пересмешница: последняя книга Голодных игр»
+ }, [Объект Object] {
+   автор: "Дорога впереди",
+   ID библиотеки: 1254,
+   название: "Билл Гейтс"
+ }]
+
+:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+ 11. Напишите функцию JavaScript для печати всех методов в объекте JavaScript.
+ Test Data :
+ console.log (all_properties (Array));
+ ["length", "name", "arguments", "caller", "prototype", "isArray", "наблюдаем", "unobserve"]
+
+ function all_properties(obj){
+
+     for(let key in obj){
+         console.log(key);
+          if(typeof obj[key] === "function"){
+              console.log(obj[key]);
+          }
+     }
+ }
+ console.log(all_properties(Array));
+
+:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+ 12. Напишите функцию JavaScript для разбора URL.
+:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+ 13. Напишите функцию JavaScript для извлечения всех имен собственных и унаследованных свойств объекта.
+:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+ 14. Напишите функцию JavaScript, чтобы получить все значения свойств объекта.
+ function allvalues(obj){
+     for(let key in obj){
+         console.log(`Ключ ${key} ||=> Значение ${obj[key]} `);
+     }
+ }
+ var student = {
+     name: "David Rayy",
+     sclass: "VI",
+     rollno: 12
+ };
+ allvalues(student);
+:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+ 15. Напишите функцию JavaScript для преобразования объекта в список пар `[key, value]`.
+
+ var student = {
+     name: "David Rayy",
+     sclass: "VI",
+     rollno: 12
+ };
+ let arr = Object.entries(student);
+ console.log(arr);
+
+
+:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+ 16. Напишите функцию JavaScript, чтобы получить копию объекта, ключи которого стали значениями, а значения - ключами.
+
+:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+ 17. Напишите функцию JavaScript, чтобы проверить, содержит ли объект данное свойство.
+
+ hasProperty = (obj, prop) => obj.hasOwnProperty(prop);
+ console.log(hasProperty(student, 'rollno'));
+
+:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+ 18. Напишите функцию JavaScript, чтобы проверить, является ли данное значение элементом DOM.
+
+:::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::::
+
+ 10 ===========================================
+ Деструктуризация ОБЪЕКТА / МАССИВА / ПЕРЕМЕННЫХ
+
+ ОБЪЕКТ
+let customObj = {
+    name: "Sam",
+    age: 37,
+    gender:"M"
+};
+
+ Первый способ
+
+Объявляем переменные с подобными именами
+let {name , age, gender} = customObj;
+ такой способ создаст переменные и присвоит им значение ключей объекта
+
+ 11. Второй способ
+
+ Если мы хоти чтобы ключи объета приходили в переменные которые мы назовем так как хотим
+ то пишем значение объекта, двоеточие и нашу переменнуб, куда прилетит значение ключа
+
+let{name : N , age : A, gender: G} = customObj;
+
+ Если нужно получить ключ свойства, который также ОБЪЕКТ то синтаксис такой
+const objInObj = {
+    name: {pseudo:"Yra", "right name":"Semen"},
+    age:14,
+    hobby:{primary:"fun",cost:9999}
+}
+присвоим переменнным значения ключей вложенного объекта
+let {name:{pseudo : Fake}, age : Age, hobby:{cost : howMuch}} = objInObj;
+
+ 12 ==============================================
+ Метод объекта for in
+
+ Перебирает ключи объекта
+
+let menu = {
+    width: 300,
+    height: 200,
+    title: "Menu"
+};
+ TASK  Создадим копию объекта
+ для этого нужно перебрать его значения,
+которые являются ПРИМИТИВНЫМИ и записать в новый объект
+
+ создадим пустой объект
+let copyObj = {};
+переберем с помощью цикла for in елементы объекта
+ этот код будет вызван для каждого свойства объекта menu
+
+for (let key in menu) {
+    запишем в объект copyObj копию объекта menu
+    copyObj[key]=menu[key];
+}
+
+
+13. TASK Посчитать количество ключей в объекте
+
+let counter = 0;
+for (let key in menu) {
+counter++;
+}
+
+14. TASK
+Есть объект salaries с зарплатами.
+Напишите код, который выведет сумму всех зарплат.
+Если объект пустой, то результат должен быть 0.
+
+let salaries = {
+    "Вася": 100,
+    "Петя": 300,
+    "Даша": 250
+};
+
+let total =0;
+
+let totalSalary = (x)=>{
+    for (let key in x){
+        total += x[key];
+    }
+    if(total <= 0){
+        console.log("Объект пустой");
+    }
+    return total;
+}
+```
+# Функции
+
+```js
+1 Создайте функцию isEmpty(obj), которая возвращает true, 
+  если в объекте нет свойств и false – если хоть одно свойство есть.
+
+ 
+ function isEmptyFirst(x){
+     let i=0;
+     for(let key in x){
+         i++;
+     }
+     if (i>0){
+         console.log("Есть ключи");
+         }else {
+             console.log("Тут пусто"); 
+         }
+ }
+  2 способ 
+ function isEmptySecond(o){
+     for(let key in o){
+         return false;
+     }
+     return true;
+ }
+
+ -:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:  
+
+  2 Написать функцию, которая принимает аргументы и формирует из него массив
+  воспользуемся псевдомассивом, который принимает на себя аргументы и функции и записывает тх в 
+  псевдомассив
+
+
+Объявим переменную, которая будет пустым массивом
+
+ let pseudoArray2=[];
+
+ создадим функцию, которая запишет в пустой массив псевдомассив
+
+ function pseudoArray(){
+     pseudoArray2 = Array.from(arguments); 
+ }
+
+Теперь при вызове функции и при передаче ей аргументов будет сформирован новый массив
+ pseudoArray(88,22,"god");
+  pseudoArray2 = [88,22,"god"]
+
+Метод Array.from() может создать массив из строки 
+
+ let str = "I am string";
+ let arrFromStr = Array.from(str); 
+
+получаем arrFromStr=["I", " ", "a", "m", " ", "s", "t", "r", "i", "n", "g"]  
+
+ -:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-: 
+
+3 узнаем столетие по году
+
+ function getAge (year){
+     let rezult = Math.floor(year / 100)+1;
+     return `Сейчас на дворе ${rezult} век`;
+ }
+ console.log(getAge(2018));
+ console.log(getAge(1875));
+ console.log(getAge(675)); 
+
+ -:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:  
+
+4 високосный год
+
+ function getAge (year){ 
+     return (year % 4 === 0 ) ? 'Год високосный' : 'Год не високосный'; 
+     }
+     console.log(getAge(2019));
+     console.log(getAge(2012));
+     console.log(getAge(1998));
+
+ -:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-: 
+
+5. Написати ф-ю convertToRem(px) яка приймає строку і повертає значення в rem 
+
+
+ function convertToRem(px){
+     let rem = px / 16;
+     return rem + 'rem';
+ }
+ console.log(convertToRem(16));  1rem
+ console.log(convertToRem(24));  1.5rem
+ console.log(convertToRem(0));  0rem
+ 
+
+ =============================== #3 ===================================
+
+
+Написати ф-ю convertToPrc(container, block) яка приймає розміри контейнера та розміри блока в форматі строк і повертає значення блока в %. 
+Якщо результат дробовий округлювати до двох знаків після коми.
+
+console.log('1000px', '100px'); 10%
+console.log('950px', '150px');  15.79%
+
+ function convertToPrc(container, block){ 
+  let containerN = Number.parseInt(container);
+  let blockN = Number.parseInt(block);
+  let size = ((blockN/containerN) * 100).toFixed(2);
+  return size + '%';
+ }
+
+ console.log(convertToPrc('1000px', '100px'));
+ console.log(convertToPrc('950px', '150px'));
+
+
+
+
+ =============================== #4 ===================================
+
+Написати ф-ю pxConvertor(from, to, block, container)  яка приймає параметри:
+ from - одиниці з яких конвертувати, 
+ to - одиниці в які конвертувати, 
+ block - розміри блока для конвертації, 
+ container - розмір контейнера.
+
+ Всі параметри це строки. Ф-я повертає результат або % або rem.
+
+   console.log('px', 'rem', 16);  1rem
+   console.log('px', 'rem', 24);  1.5rem
+   console.log('px','%', 100px', '1000px'); 10%
+   console.log('px', '%', '150px', '950px');  15.79%
+
+ function pxConvertor(from, to, block, container=1){
+
+ let pxToRem = (Number.parseInt(block)/16) + 'rem'; 
+ let pxToPercent = ((Number.parseInt(block)/Number.parseInt(container))*100).toFixed(2) + '%'; 
+
+   if(to === 'rem'){
+       return pxToRem;
+   }else if(to === '%'){
+       return pxToPercent;
+   }else {
+       console.log('Некорректные данные');
+   }  
+ }
+
+ console.log(pxConvertor('px', 'rem', 16));
+ console.log(pxConvertor('px', 'rem', 24));
+ console.log(pxConvertor('px','%', '100px', '1000px'));
+ console.log(pxConvertor('px', '%', '150px', '950px'));
+
+
+
+ =============================== #5 ===================================
+
+
+Написати ф-ю convertFromKmToMetric(km). 
+Ця функція приймає відстань в кілометрах і перетворює її в м, дм, см. 
+Ф-я повертає обєкт конвертованих даних. 
+
+
+ function convertFromKm(km){
+ return `cm: ${km*100000}, dm: ${km*10000}, m: ${km*1000}`
+ }
+ 
+ console.log(convertFromKm(1));  {cm: 100000, dm: 10000, m: 1000,}
+ console.log(convertFromKm(1.5));  {cm: 150000, dm: 15000, m: 1500,}
+ console.log(convertFromKm(3));  {cm: 300000, dm: 30000, m: 3000,}
+
+ =============================== #6 ===================================
+
+Написати ф-ю convertFromKmToImperial(km). 
+Ця функція приймає відстань в кілометрах і перетворює її в фути, дюйми, ярди. 
+Ф-я повертає обєкт конвертованих даних. 
+
+
+ function convertFromKm(km){
+ return `feet: ${km*3280.84}, inch: ${km*39370.08}, yards: ${km*1093.613}`;
+ }
+
+ console.log(convertFromKm(1));  {feet: 3280,84, inch: 39370,08, yards: 1093,613,}
+ console.log(convertFromKm(1.5));  {feet: 4921,26, inch: 59055,12, yards: 1640,42,}
+
+ =============================== #7 ===================================
+
+ Написати ф-ю cipher яка приймає зашифровану строку і повертає розшифровану. 
+ Перетворення строки відбувається за алгоритмом ROT13 який заміняє 
+ поточну літеру 13 буквою в абетці після неї. 
+ Наприклад A => N; K => X; R => E; U => H;
+ Перші 13 літер алфавіту зміщуються вправо.
+ Другі 13 літер зміщується вліво. Використати методи строки: 
+
+ fromCharCode()  =   букви в юнікод
+ charCodeAt()      = юнікод в букви
+
+ 
+
+ function cipher(str) {  LBH QVQ VG! 
+     var min = 'A'.charCodeAt(0);
+     var max = 'Z'.charCodeAt(0);
+     var factor = 13;
+     var result = "";
+     str = str.toUpperCase();
+     console.log(min, max);
+
+     for (var i=0; i<str.length; i++) {  
+       result += String.fromCharCode( (str.charCodeAt(i) - min + factor) % (max-min+1) + min); 
+     }
+    
+     return result;
+   }
+  
+ console.log(cipher("SERR CVMMN"))   FREE PIZZA;
+ console.log(cipher("GUR DHVPX OEBJA SBK WHZCF BIRE GUR YNML QBT"))   THE QUICK BROWN FOX JUMPS OVER THE LAZY DOG;
+
+ ================================================================
+
+ Написати ф - ю яка знаходить в масиві число яке найблище знаходиться до нуля і повертає його.
+ Якщо таких чисел 2(тобто 1 і - 1) тоді повертати додатнє
+
+ function closestToZero (nums) {
+   let posNum = []; 
+
+   for (let el of nums){
+     posNum.push(Math.abs(el));  Сделали все числа массива положительными и поместили в МАССИВ
+   }
+  
+   let min = Math.min(...posNum);  Найдем минимальное число в массиве
+
+   return !nums.includes(min) ? min * -1 : min;   Если в массиве НЕТ МИНИМАЛЬНОГО числа то делаем его ОТРИЦАТЕЛЬНЫМ
+ }
+ console.log(closestToZero([-5, -3, 1, 2, 3, 5]))  1
+ console.log(closestToZero([-2, 3, 5, 10]))  -2
+ console.log(closestToZero([-7, -5, -3, 3, 5, 8])) 3
+
+
+ Найти МИНИМАЛЬНОЕ ЧИСЛО В МАССИВЕ не используя ...REST
+
+ function minimumNumber (nums) {
+         let array = nums;    массив в котором будем искать минимальное значение
+         let minNum = array[0];  возьмем первое число, с которым будем сравнивать остальные елементы
+       
+         for(let item of posNum){  запустим цикл в котором будем проверять числа
+
+           if(item < minNum) {  если текущий елемент меньше первого елемента массива
+             minNum = item;    то запишем в minNum это значние 
+           }
+         } 
+         return  minNum;  вернем это значение
+       }
+ ================================================================
+
+ Медіана – це числове значення, яке ділить відсортований масив чисел на більшу і меншу половини. 
+ У відсортованому масиві з непарним числом елементів медіана – це число в середині масиву.
+ Для масиву з парним числом елементів медіана – це середнє значення двох чисел, 
+ які знаходяться в середині масиву. Вам потрібно нвписати ф-ю яка приймає аргументом масив, 
+ знаходить  медіану даного масиву і повертає її.
+
+ function median(data) {
+ 
+    получаем ЧИСЛО которое будет равно половине длины массива
+     var middle = Math.floor((data.length - 1) / 2); 
+
+     if (data.length % 2) {  если нет остатка от деления, тоесть четное количество елементов
+         return data[middle];  возвращаем число которое стоит посередине 
+     } else {  
+          тогда берем ДВА елемента которые стоят посередине 
+          сумируем их и делим на два
+         return (data[middle] + data[middle + 1]) / 2; 
+     }
+ }
+
+ console.log(median([1, 2, 3, 4, 5]))  3;
+ console.log(median([1, 2, 3, 3, 5]));  3
+ console.log(median([1, 1, 2,  200, 300]))  2;
+ console.log(median([3, 6, 10, 15, 20, 99]));
+
+ =============================================================
+
+ Напишите ф-ю которая принисает число и возвращает его зеркальную копию. 
+
+ function reverseNumber(str){
+     return sTr = Number(String(str).split('').reverse().join(''));  
+ }
+
+ console.log(reverseNumber(12))  21
+ console.log(reverseNumber(567))  765
+ console.log(reverseNumber(1004))  4001
+ 
+ -:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:  
+ 
+ Напишите ф-ю которая принемает строку и делает из нее строку в стиле capitalize.
+
+ Первый способ  
+ function capitalize(str){
+     let sTr= str.toLowerCase().split(' ');
+     let modArr = sTr.map(val => val.replace(val.charAt(0), val.charAt(0).toUpperCase())).join(' ');
+     return modArr;
+  }
+ 
+
+ВТОРОЙ СПОСОБ ЮЛИ  
+ const capitalize = (str) => {   
+     let arrWords = str.split(" ");  
+     let newWord;
+     let newArrWords = []; 
+     for (let i = 0; i < arrWords.length; i++) { 
+         let arrayOfLetters = arrWords[i].split("");  arrLetters = ["w", "r", "i", "t", "e"]  
+         let firstLetter = arrayOfLetters[0].toUpperCase();   firstLetter = W   
+         arrayOfLetters.splice(0,1,firstLetter);  arrayOfLetters = ["W", "r", "i", "t", "e"]  
+         newWord = arrayOfLetters.join("");  newWord =  Write   
+         newArrWords.push(newWord);  newArrWords =   ["Write", "JavaScript", "Function"]
+     }; 
+     let newStr = newArrWords.join(" ");  newStr =   Write JavaScript Function 
+     return newArrWords;
+ }
+
+  Третий спосб используя REPLACE
+ const capitalize = (str) => {   
+     let arrWords = str.split(" ");   
+     let newArr = [];  
+     for(let elem of arrWords){
+         newArr.push(elem.replace(elem[0], elem[0].toUpperCase()));
+     } 
+     return newArr; 
+ }
+
+ console.log(capitalize('write javaScript function')); Write JavaScript Function
+ console.log(capitalize('the quick brown fox')); The Quick Brown Fox
+ console.log(capitalize('go to the editor')); Go To The Editor
+
+  -:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:  
+
+ Напишите ф-ю которая принемает строку и возвращает количество гласных букв в строке
+
+ function countOfVowels(str){ 
+
+     let arrvow = 'aoeuiy'.split('');  
+     let counter=0; 
+     let arrStr = str.toLowerCase().split(''); 
+
+     for(let elem of arrvow){ 
+         for(let inelem of arrStr){
+             if(elem === inelem) counter++; 
+         }  
+     }
+     return counter;
+ }
+ 
+
+ console.log(countOfVowels('The quick brown fox'))  5
+ console.log(countOfVowels('Example string'))  4 
+ console.log(countOfVowels('Go to the editor'))  6 
+
+-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:  
+
+Напишите ф-ю которая принимает строку и букву и возвращает количество этой буквы в строке
+
+ function countLetter(str, letter){
+     let arr = str.split('');
+     let counter =0; 
+
+     for(let elem of arr){
+         if(elem === letter) counter++;
+     }
+     return counter;
+ }
+ 
+ console.log(countLetter('w3oooooooschool.com', 'o'))  3
+
+-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:  
+
+Напишите ф-ю которая переводит rgb цвет в hex цвет
+ Здесь поможет Number() i toString() 
+ 
+  function convertColor(rgb) { 
+      let cut = rgb.slice(4,-1).split(',');  
+      let hex = cut.map(elem => Number(elem).toString(16)).join('');
+      return `#${hex}`; 
+   };
+
+ console.log(convertColor('rgb(255,255,255)'));  #ffffff
+ console.log(convertColor('rgb(0,0,0)')); #000000
+ console.log(convertColor('rgb(66, 134, 244)')); #4286f4
+
+ -:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:  
+
+ Дан непустой массив целых чисел (X). 
+ В этой задаче вам нужно вернуть массив, состоящий только из неуникальных элементов данного массива. 
+ Для этого необходимо удалить все уникальные элементы (которые присутствуют в данном массиве только один раз).
+ Для решения этой задачи не меняйте оригинальный порядок элементов. 
+ Пример: [1, 2, 3, 1, 3], где 1 и 3 неуникальные элементы и результат будет [1, 3, 1, 3].
+
+ function nonUniqueElements(arr){
+     let unique = arr;
+
+     for(let elem of unique){
+         let counter = 0;
+    
+         for(let innerelem of unique){
+             if(elem === innerelem) counter++;
+         }
+        
+         if(counter === 1){
+             unique.splice(unique.indexOf(elem),1);
+         }
+     } 
+     return arr;
+ }
+ console.log(nonUniqueElements([1, 2, 3, 1, 3]));  [1, 3, 1, 3]
+ console.log(nonUniqueElements([1, 2, 3, 4, 5]))  []
+ console.log(nonUniqueElements([5, 5, 5, 5, 5]))  [5, 5, 5, 5, 5]
+ console.log(nonUniqueElements([10, 9, 10, 10, 9, 8]))  [10, 9, 10, 10, 9]
+ ```
