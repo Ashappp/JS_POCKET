@@ -8,6 +8,8 @@
 
 - [Функции](#Функции)
 
+- [Тестовые](#Test_tasks)
+
 ---
 
 ### Массивы
@@ -2201,4 +2203,61 @@ console.log('950px', '150px');  15.79%
  console.log(nonUniqueElements([1, 2, 3, 4, 5]))  []
  console.log(nonUniqueElements([5, 5, 5, 5, 5]))  [5, 5, 5, 5, 5]
  console.log(nonUniqueElements([10, 9, 10, 10, 9, 8]))  [10, 9, 10, 10, 9]
+ ```
+
+ # Test_tasks
+
+ ```js
+// Check result
+
+const assert = (a, b) => {
+  if (a != b) {
+    throw new Error(`Assertion failed. Actual: ${a}. Expected: ${b}`);
+  }
+  console.log(b);
+};
+
+
+// 1. Sum Calculator.  
+
+const sum = (...rest) => rest.reduce((acc, el)=> acc + el);
+
+assert(sum(400, 20), 420);
+assert(sum(400, 20, 20, 20), 460);
+assert(sum(400, 20, 20, 20, 40), 500);
+assert(sum(120, 61), 181);
+
+// -:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-
+
+// 2. Mean value calculator. 
+
+const mean = arr => sum(...arr) / arr.length; 
+
+assert(mean([1, 2, 3, 4, 5]), 3);
+assert(mean([49, 65, 12]), 42);
+
+// -:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:
+
+// 3. Write a function `mostPopularWord` that shows most popular word in text;
+ 
+const mostPopularWord = (text) => {
+  const counter = text
+    .replace(/[,.*]/g, '')
+    .split(/\s+/gi)
+    .reduce((acc, word) => {
+      acc[word] = acc[word] ? acc[word] + 1 : 1;
+      return acc;
+    }, {});
+  return Object.entries(counter).sort((a, b) => b[1] - a[1])[0][0];
+};
+
+ 
+const text1 = 'dog, cat, lizard, cat, dog, dog, cat, cat, cat';
+const text2 = 'John and Marry work together for last few years. John as designer and Marry as his manager. On Firday John is going to be promoted.';
+
+assert(mostPopularWord(text1), 'cat');
+assert(mostPopularWord(text2), 'John');
+
+// -:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:-:
+
  ```
