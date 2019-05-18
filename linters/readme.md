@@ -20,6 +20,7 @@ lint-staged
 
 - prettier
 - eslint
+- editorconfig
 
 Husky работает в связке с lint-staged. **До установки в проект, папка с проектом уже должна отслеживаться git**
 
