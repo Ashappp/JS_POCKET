@@ -4,7 +4,10 @@ must have
 ### Ставим пакеты
 
 ```js
-npm i --save-dev
+npm i --save-dev prettier eslint-config-airbnb eslint-config-prettier eslint-plugin-prettier eslint-plugin-react eslint-plugin-import eslint-plugin-jsx-a11y husky lint-staged
+```
+
+```js 
 prettier
 eslint-config-airbnb
 eslint-config-prettier
@@ -20,6 +23,7 @@ lint-staged
 
 - prettier
 - eslint
+- editorconfig
 
 Husky работает в связке с lint-staged. **До установки в проект, папка с проектом уже должна отслеживаться git**
 
