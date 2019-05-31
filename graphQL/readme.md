@@ -7,7 +7,7 @@
 ![pic](http://i.piccy.info/i9/35b67ed340f731ffa3ab72d03b5fe781/1559328902/201483/1314369/qraphql.png)
 
 
-1. [ТИПЫ](#Tипы._Type)
+1. [ТИПЫ](#Tипы_Type)
 
 2. [**ЗАПРОС**](#Запрос_Query)
 
@@ -41,14 +41,14 @@
    8.10 [Подписки](#Схема.Подписки_Subscription)
    8.11 [Документирование схемы](#Схема._Документация)
 
-
+________
 [ДОКУМЕНТАЦИЯ GRAPHQL](https://graphql.org/)
 
 Браузерные IDE
 - GraphiQL - брузерный UI 
 - [GraphQL Playground](https://www.graphqlbin.com/v2/new)
-
-### Tипы._Type
+______
+### Tипы_Type
 
 - скалярными типами,
 - типами объектов.
