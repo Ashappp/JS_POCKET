@@ -97,3 +97,34 @@ app.use(
   })
 );
 ```
+
+<!-- ### Директивы
+
+Нужны чтобы указать серверу определенные условия или хотим пропустить какието значения
+
+Пишутся через @include(if : \$varname или другое условие)
+
+```js
+query GetRepos($owner: String!, $name: String!, $includeIssues: Boolean!) {
+  graphql: repository(owner: $owner, name: $name) {
+    ...repoDetails
+  }
+}
+
+fragment repoDetails on Repository {
+  name
+  description
+  createdAt
+  homepageUrl
+  id
+  issues(first: 10) @include(if : $includeIssues) {
+    nodes {
+      id
+      author {
+        login
+      }
+      body
+    }
+  }
+}
+``` -->
