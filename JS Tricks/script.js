@@ -189,3 +189,59 @@ const onResize = () => console.log(window.innerWidth, window.innerHeight);
 
 // wrap handler function in hof debounce
 window.addEventListener("resize", debounce(onResize, 500));
+
+/* =======================================================================
+Поиск поля/полей в объекте по данным из массива.
+К примеру есть массив id фильмов и есть база данных фильмов, где ключи полей это такие же id.
+Необходимо выбрать из объета только те ключи, которые указаны в массиве
+*/
+
+const arrIds = [1, 2, 3, 5, 65, 78, 32, 867, 34];
+const dataBase = { 1: {}, 2: {}, 65: {}, 34: {} };
+// Берем id из массива и проходися по ним , выбирая из объекта только те поля которые соответствуют id
+const choosen = arrIds.map(id => dataBase[id]);
+
+/* =======================================================================
+Если нужно выбрать из объета специфическое поле по условию, например есть общий массив id  постов, 
+полные данные о постах хранятся в объектею 
+Нас интересуют только посты определенного автора, id автора у нас есть  
+*/
+
+const getPostsWithAuthor = state => {
+  const authorId = 35;
+  const postsIds = [2, 33, 87, 66, 458];
+  const postsDatabase = { 2: {}, 33: {} }; // и т.д.
+
+  //создадим пустой массив куда будем пушить найденные данные
+  const posts = [];
+
+  // проходиться будем по массиву постов
+  postsIds.forEach(postId => {
+    //выбираем пост который соответствует id  поста
+    const post = postsDatabase[postId];
+
+    //если поле author соответствует id  автора то пушим в массив весь объект
+    if (post.author === authorId) {
+      posts.push(post);
+    }
+  });
+  // по окончании возвращаем получившийся массив
+  return posts;
+};
+
+// Пример с использованием Reduce
+
+const getPostsWithAuthor = state => {
+  const authorId = 35;
+  const postsIds = [2, 33, 87, 66, 458];
+  const postsDatabase = { 2: {}, 33: {} }; // и т.д.
+
+  const posts = postsIds.reduce((acc, postId) => {
+    const post = postsDatabase[postId];
+    if (post.author === authorId) {
+      acc.push(post);
+    }
+  }, []);
+
+  return posts;
+};

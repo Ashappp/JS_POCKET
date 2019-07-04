@@ -46,3 +46,101 @@ it("map state and dispatch to props", () => {
   );
 });
 ```
+
+LOGIC.js =====================================
+
+```js
+import { createLogic } from "redux-logic";
+
+export const fooLogic = createLogic({
+  type: "FOO",
+  process({ API, getState, action }, dispatch, done) {
+    API.get().then(results => {
+      dispatch({ type: "FOO_SUCCESS", payload: results });
+      done();
+    });
+  }
+});
+export default [fooLogic];
+```
+
+REDUCER.js =====================================
+
+```js
+const initialState = {
+  answer: null
+};
+export default function reducer(state = initialState, action = {}) {
+  if (action.type === "FOO_SUCCESS") {
+    return {
+      ...state,
+      answer: action.payload
+    };
+  }
+  return state;
+}
+```
+
+TESTLOGIC.js ==================================
+
+```js
+import { createMockStore } from "redux-logic-test";
+import appLogic from "./App.logic";
+import appReducer from "./App.reducer";
+
+const injectedDeps = {
+  API: {
+    //simulate an async fetch
+    get() {
+      return Promise.resolve(42);
+    }
+  }
+};
+
+describe("appLogic test without reducer", () => {
+  describe("appLogic test without reducer", () => {
+    let store;
+    beforeEach(() => {
+      store = createMockStore({
+        logic: appLogic,
+        injectedDeps
+      });
+    });
+
+    it("should fetch answer and dispatch", done => {
+      store.dispatch({ type: "FOO" }); // start fetching
+      store.whenComplete(() => {
+        // all logic has completed
+        expect(store.actions).toEqual([
+          { type: "FOO" },
+          { type: "FOO_SUCCESS", payload: 42 }
+        ]);
+        done();
+      });
+    });
+  });
+
+  describe("appLogic test with reducer", () => {
+    let store;
+    beforeEach(() => {
+      store = createMockStore({
+        reducer: appReducer,
+        logic: appLogic,
+        injectedDeps
+      });
+    });
+
+    it("should fetch answer and dispatch", done => {
+      store.dispatch({ type: "FOO" }); // start fetching
+      store.whenComplete(() => {
+        // all logic has completed
+        expect(store.actions).toEqual([
+          { type: "FOO" },
+          { type: "FOO_SUCCESS", payload: 42 }
+        ]);
+        done();
+      });
+    });
+  });
+});
+```
