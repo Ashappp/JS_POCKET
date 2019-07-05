@@ -56,6 +56,8 @@
 
 ### [Инструменты (методы, проверки и т.п)](https://github.com/cyberspacedk/JS-Tools)
 
+### [Puzzles](https://github.com/cyberspacedk/JS_POCKET/tree/master/Puzzles)
+
 ### [Разные тесты для интервью](https://github.com/cyberspacedk/JS_POCKET/blob/master/For%20interviews/readme.md)
 
 ### [Особенности и странности JS](https://github.com/cyberspacedk/TIPS-of-Javascript)
