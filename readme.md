@@ -58,6 +58,8 @@
 
 ### [Puzzles](https://github.com/cyberspacedk/JS_POCKET/tree/master/Puzzles)
 
+### [JS-Tricks](https://github.com/cyberspacedk/JS_POCKET/tree/master/JS%20Tricks)
+
 ### [Разные тесты для интервью](https://github.com/cyberspacedk/JS_POCKET/blob/master/For%20interviews/readme.md)
 
 ### [Особенности и странности JS](https://github.com/cyberspacedk/TIPS-of-Javascript)
