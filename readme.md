@@ -68,6 +68,8 @@
 
 #### [FRONTEND словарь](https://github.com/cyberspacedk/dictionary)
 
+#### [Git inside](https://github.com/cyberspacedk/JS_POCKET/tree/master/Git)
+
 #### [Git команды](https://github.com/cyberspacedk/Git-commands)
 
 #### [Bash команды](https://github.com/cyberspacedk/BASH-Commands)
