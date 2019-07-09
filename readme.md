@@ -6,6 +6,8 @@
 
 ### [GraphQL](https://github.com/cyberspacedk/JS_POCKET/tree/master/graphQL)
 
+### [Testing React Redux](https://github.com/cyberspacedk/JS_POCKET/tree/master/Testing_react_redux)
+
 ### [Вопросы React Redux](https://github.com/cyberspacedk/React.-All-you-have-to-know.)
 
 ### [Styled Component](https://github.com/cyberspacedk/JS_POCKET/tree/master/Styled%20component)
